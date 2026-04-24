@@ -1,14 +1,14 @@
 // ── Store: all localStorage reads and writes ──────────────────
 // Single source of truth for saved state.
 
-const SAVE_KEY = 'numsum_v02';
+const SAVE_KEY = 'numsum_v03';
 
 const DEFAULT_STATE = {
-  solved:          {},   // { levelIndex: starsEarned }
+  solved:          {},
   points:          0,
-  ownedItems:      ['theme-default', 'theme-dark', 'theme-colorblind'],
+  ownedItems:      ['theme-default', 'theme-colorblind'],
   activeTheme:     'theme-default',
-  activeCompanion: null  // null = no companion
+  activeCompanion: null
 };
 
 let _state = null;
@@ -89,9 +89,12 @@ function setActiveCompanion(id) {
 // ── Theme application ────────────────────────────────────────
 
 function applyTheme(id) {
-  document.body.classList.remove('theme-dark', 'theme-colorblind');
-  if (id === 'theme-dark')        document.body.classList.add('theme-dark');
-  if (id === 'theme-colorblind')  document.body.classList.add('theme-colorblind');
+  document.body.className = document.body.className
+    .replace(/\btheme-\S+/g, '').trim();
+  if (id && id !== 'theme-default') {
+    document.body.classList.add(id);
+  }
+  // theme-dark-cb needs both classes
   if (id === 'theme-dark-cb') {
     document.body.classList.add('theme-dark');
     document.body.classList.add('theme-colorblind');
