@@ -1,14 +1,14 @@
 // ── Store: all localStorage reads and writes ──────────────────
 // Single source of truth for saved state.
 
-const SAVE_KEY = 'numsum_v02';
+const SAVE_KEY = 'numsum_v03';
 
 const DEFAULT_STATE = {
-  solved:          {},   // { levelIndex: starsEarned }
+  solved:          {},
   points:          0,
-  ownedItems:      ['theme-default', 'theme-dark', 'theme-colorblind'],
+  ownedItems:      ['theme-default', 'theme-colorblind'],
   activeTheme:     'theme-default',
-  activeCompanion: null  // null = no companion
+  activeCompanion: null
 };
 
 let _state = null;

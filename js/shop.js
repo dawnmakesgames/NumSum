@@ -18,11 +18,25 @@ const SHOP_ITEMS = [
     }
   },
   {
+    id:       'theme-colorblind',
+    type:     'theme',
+    name:     'Accessible',
+    desc:     'Blue & orange — free for everyone',
+    price:    0,
+    preview() {
+      return `<div class="theme-swatch" style="background:#F7F5F0;border-color:#E2DDD6;">
+        <div class="swatch-dot" style="background:#0EA5E9"></div>
+        <div class="swatch-dot" style="background:#534AB7"></div>
+        <div class="swatch-dot" style="background:#F97316"></div>
+      </div>`;
+    }
+  },
+  {
     id:       'theme-dark',
     type:     'theme',
     name:     'Dark',
-    desc:     'Easy on the eyes',
-    price:    0,
+    desc:     'Easy on the eyes at night',
+    price:    35,
     preview() {
       return `<div class="theme-swatch" style="background:#1C1917;border-color:#44403C;">
         <div class="swatch-dot" style="background:#34D399"></div>
@@ -32,16 +46,16 @@ const SHOP_ITEMS = [
     }
   },
   {
-    id:       'theme-colorblind',
+    id:       'theme-dark-cb',
     type:     'theme',
-    name:     'Accessible',
-    desc:     'Blue & orange instead of green & red',
-    price:    0,
+    name:     'Dark Accessible',
+    desc:     'Dark mode with blue & orange',
+    price:    35,
     preview() {
-      return `<div class="theme-swatch" style="background:#F7F5F0;border-color:#E2DDD6;">
-        <div class="swatch-dot" style="background:#0EA5E9"></div>
-        <div class="swatch-dot" style="background:#534AB7"></div>
-        <div class="swatch-dot" style="background:#F97316"></div>
+      return `<div class="theme-swatch" style="background:#1C1917;border-color:#44403C;">
+        <div class="swatch-dot" style="background:#38BDF8"></div>
+        <div class="swatch-dot" style="background:#818CF8"></div>
+        <div class="swatch-dot" style="background:#FB923C"></div>
       </div>`;
     }
   },
