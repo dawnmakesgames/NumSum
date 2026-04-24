@@ -423,7 +423,7 @@ function renderShop() {
 function makeShopItemEl(item) {
   const el       = document.createElement('div');
   const owned    = isItemOwned(item.id);
-  const isActive = item.type === 'theme'
+  const isActive = (item.type === 'theme' || item.type === 'pride-theme')
     ? getActiveTheme() === item.id
     : getActiveCompanion() === item.id;
   const canAfford = getPoints() >= item.price;
@@ -487,7 +487,7 @@ function buyItem_shop(item) {
 }
 
 function equipItem(item) {
-  if (item.type === 'theme') {
+  if (item.type === 'theme' || item.type === 'pride-theme') {
     setActiveTheme(item.id);
   } else if (item.type === 'companion') {
     const current = getActiveCompanion();
