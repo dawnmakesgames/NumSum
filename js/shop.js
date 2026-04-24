@@ -540,6 +540,8 @@ function lottieSVGPaths(cx, cy, scale) {
       ${gillFeather( 26,  8,  38,  19,  0.7, -0.7)}
       <ellipse cx="0" cy="2" rx="26" ry="22" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1.5"/>
       <ellipse cx="0" cy="7" rx="15" ry="12" fill="#FFF0F5" opacity="0.7"/>
+      <ellipse cx="-15" cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
+      <ellipse cx="15"  cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
       <g class="numby-normal">
         <circle cx="-10" cy="-5" r="5.5" fill="var(--text)"/>
         <circle cx="-8"  cy="-7" r="2"   fill="var(--surface)"/>
@@ -552,8 +554,6 @@ function lottieSVGPaths(cx, cy, scale) {
         <text x="10"  y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
         <path d="M-8,6 Q0,15 8,6" stroke="#C07080" stroke-width="2" stroke-linecap="round" fill="#FFF0F5"/>
       </g>
-      <ellipse cx="-15" cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
-      <ellipse cx="15"  cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
       <ellipse cx="0" cy="22" rx="8" ry="4" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1"/>
     </g>
   `;
