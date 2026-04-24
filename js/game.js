@@ -263,20 +263,36 @@ function toggleCell(r, c) {
 
   if (!gameOver && checkWin()) {
     won = true;
-    const stars  = calcStars();
-    const base   = POINTS_PER_SIZE[L.size];
-    const bonus  = lives * POINTS_PER_LIFE;
-    const earned = mode === 'free' ? Math.floor(base * 0.5) : base + bonus;
+    const stars      = calcStars();
+    const prevStars  = getLevelStars(currentLevel);
+    const prevSolved = isLevelSolved(currentLevel);
+    const base       = POINTS_PER_SIZE[L.size];
+    const bonus      = lives * POINTS_PER_LIFE;
+    const fullPoints = mode === 'free' ? Math.floor(base * 0.5) : base + bonus;
+
+    // Only award points for improvement over previous best
+    let earned = 0;
+    if (!prevSolved) {
+      // First time — full points
+      earned = fullPoints;
+    } else if (stars > prevStars) {
+      // Beat previous best — award the difference
+      const prevBonus    = prevStars * POINTS_PER_LIFE;
+      const prevEarned   = mode === 'free' ? Math.floor(base * 0.5) : base + prevBonus;
+      earned = Math.max(0, fullPoints - prevEarned);
+    }
+    // If stars <= prevStars and already solved: earned stays 0
 
     solveLevel(currentLevel, stars);
-    addPoints(earned);
+    if (earned > 0) addPoints(earned);
     celebrateCompanion();
 
     const isLast = currentLevel === LEVELS.length - 1;
     document.getElementById('win-sub').textContent = isLast
       ? 'You cleared all levels! 🏆'
       : `Level ${currentLevel + 1} complete! ${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}`;
-    document.getElementById('points-earned-display').textContent = `+${earned} pts`;
+    document.getElementById('points-earned-display').textContent =
+      earned > 0 ? `+${earned} pts` : stars > prevStars ? '+0 pts (new best!)' : 'No new points — already solved';
     document.getElementById('next-btn').style.display = isLast ? 'none' : 'block';
     document.getElementById('win-screen').classList.add('show');
     document.getElementById('reset-btn').style.display = 'none';
