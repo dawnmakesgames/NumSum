@@ -321,7 +321,9 @@ body {
 #companion-svg {
   width: 48px;
   height: 48px;
+  display: block;
   animation: companionFloat 3s ease-in-out infinite;
+  transform-origin: center bottom;
 }
 
 @keyframes companionFloat {
