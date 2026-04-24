@@ -231,7 +231,8 @@ function showMessage(txt) {
 function gridSizing(size) {
   if (size === 3) return { labelPx: 52, cellPx: 72, labelFont: 17, cellFont: 22, subFont: 11 };
   if (size === 4) return { labelPx: 48, cellPx: 64, labelFont: 16, cellFont: 20, subFont: 10 };
-                  return { labelPx: 40, cellPx: 52, labelFont: 14, cellFont: 17, subFont: 9  };
+  if (size === 5) return { labelPx: 40, cellPx: 52, labelFont: 14, cellFont: 17, subFont: 9  };
+                  return { labelPx: 34, cellPx: 44, labelFont: 13, cellFont: 15, subFont: 8  };
 }
 
 // ── Render grid ──────────────────────────────────────────────
