@@ -106,7 +106,7 @@ function applyTheme(id) {
 function refreshPointsDisplays() {
   const pts = getPoints();
   document.querySelectorAll(
-    '#points-count, #shop-themes-points-count, #shop-companions-points-count'
+    '#points-count, #points-count-game, #shop-themes-points-count, #shop-companions-points-count'
   ).forEach(el => { el.textContent = pts; });
 }
 
