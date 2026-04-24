@@ -183,6 +183,9 @@ function launchConfetti() {
       requestAnimationFrame(tick);
     } else {
       document.body.removeChild(canvas);
+      // Re-apply happy face in case repaint reset it
+      const comp = document.getElementById('companion-svg');
+      if (comp && won) comp.classList.add('is-happy');
     }
   }
 
