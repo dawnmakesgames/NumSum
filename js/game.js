@@ -32,6 +32,9 @@ function resetGame() {
   document.getElementById('gameover-screen').classList.remove('show');
   document.getElementById('reset-btn').style.display = 'block';
   document.getElementById('message').classList.remove('show');
+  // Reset Numby to normal face
+  const comp = document.getElementById('companion-svg');
+  if (comp) comp.classList.remove('is-happy', 'companion-celebrate', 'companion-row-done');
   renderLives();
   renderCompanion();
   render();
@@ -84,6 +87,7 @@ function celebrateCompanion() {
   const el = document.getElementById('companion-svg');
   if (!el) return;
   el.classList.remove('companion-celebrate', 'companion-row-done');
+  el.classList.add('is-happy');
   void el.offsetWidth;
   el.classList.add('companion-celebrate');
 }

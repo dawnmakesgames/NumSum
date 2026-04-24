@@ -77,21 +77,31 @@ function numbyLargeSVG() {
 
 function numbySVGPaths(cx, cy, scale) {
   const s = scale;
-  // Body — round top, wavy bottom tail
   return `
     <g transform="translate(${cx}, ${cy}) scale(${s})">
       <!-- body -->
       <path d="M0,-22 C12,-22 20,-14 20,-4 L20,14 C20,14 15,10 10,14 C5,18 0,14 0,14 C0,14 -5,18 -10,14 C-15,10 -20,14 -20,14 L-20,-4 C-20,-14 -12,-22 0,-22 Z"
         fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
-      <!-- left eye -->
-      <circle cx="-7" cy="-6" r="4" fill="var(--text)"/>
-      <circle cx="-6" cy="-7" r="1.5" fill="var(--surface)"/>
-      <!-- right eye -->
-      <circle cx="7" cy="-6" r="4" fill="var(--text)"/>
-      <circle cx="8" cy="-7" r="1.5" fill="var(--surface)"/>
-      <!-- smile -->
-      <path d="M-5,2 Q0,7 5,2" stroke="var(--text)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      <!-- cheeks -->
+
+      <!-- normal face (hidden when happy) -->
+      <g class="numby-normal">
+        <circle cx="-7" cy="-6" r="4" fill="var(--text)"/>
+        <circle cx="-6" cy="-7" r="1.5" fill="var(--surface)"/>
+        <circle cx="7" cy="-6" r="4" fill="var(--text)"/>
+        <circle cx="8" cy="-7" r="1.5" fill="var(--surface)"/>
+        <path d="M-5,2 Q0,7 5,2" stroke="var(--text)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      </g>
+
+      <!-- happy face (shown when celebrating) -->
+      <g class="numby-happy">
+        <!-- star eyes -->
+        <text x="-7" y="-2" text-anchor="middle" font-size="10" fill="var(--text)">★</text>
+        <text x="7"  y="-2" text-anchor="middle" font-size="10" fill="var(--text)">★</text>
+        <!-- big open smile -->
+        <path d="M-7,4 Q0,12 7,4" stroke="var(--text)" stroke-width="2" stroke-linecap="round" fill="var(--green-light)"/>
+      </g>
+
+      <!-- cheeks (always visible) -->
       <ellipse cx="-11" cy="0" rx="3" ry="2" fill="var(--red)" opacity="0.3"/>
       <ellipse cx="11"  cy="0" rx="3" ry="2" fill="var(--red)" opacity="0.3"/>
     </g>
