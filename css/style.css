@@ -123,6 +123,241 @@ body.theme-bi-dark {
   --points-color: #C07ABB;
 }
 
+/* Trans pride light theme */
+/* Official flag: blue #5BCEFA, pink #F5A9B8, white #FFFFFF */
+body.theme-trans {
+  --bg: #F0FAFF;
+  --surface: #FFFFFF;
+  --border: #B8E8FA;
+  --text: #0A2030;
+  --text-muted: #5A8090;
+  --green: #5BCEFA;
+  --green-light: #E0F7FF;
+  --green-border: #90D8F5;
+  --red: #E08098;
+  --red-light: #FEF0F4;
+  --red-border: #F5C0CC;
+  --selected-bg: #E0F7FF;
+  --selected-border: #5BCEFA;
+  --selected-text: #006080;
+  --accent: #F5A9B8;
+  --accent-light: #FEF0F4;
+  --dim-bg: #E8F6FC;
+  --dim-text: #90C0D0;
+  --dim-border: #C8E8F8;
+  --points-color: #2090B8;
+}
+
+/* Trans pride dark theme */
+body.theme-trans-dark {
+  --bg: #0A1520;
+  --surface: #102030;
+  --border: #1A3A50;
+  --text: #E8F6FF;
+  --text-muted: #7AAABB;
+  --green: #5BCEFA;
+  --green-light: #0A2535;
+  --green-border: #1A4560;
+  --red: #F5A9B8;
+  --red-light: #2A0A15;
+  --red-border: #5A1A2A;
+  --selected-bg: #0A2535;
+  --selected-border: #5BCEFA;
+  --selected-text: #90D8F5;
+  --accent: #F5A9B8;
+  --accent-light: #2A0A15;
+  --dim-bg: #0E1E2C;
+  --dim-text: #2A4A5A;
+  --dim-border: #1A3040;
+  --points-color: #5BCEFA;
+}
+
+/* MLM pride light theme */
+/* Official flag: #078D70, #26CEAA, #99E8C2, #FFFFFF, #7BADE3, #3E1A78 */
+body.theme-mlm {
+  --bg: #F0FBF7;
+  --surface: #FFFFFF;
+  --border: #A0DEC4;
+  --text: #082818;
+  --text-muted: #407860;
+  --green: #078D70;
+  --green-light: #E0F8F0;
+  --green-border: #80D4B8;
+  --red: #3E1A78;
+  --red-light: #EEE8F8;
+  --red-border: #B090D8;
+  --selected-bg: #E0F8F0;
+  --selected-border: #078D70;
+  --selected-text: #045040;
+  --accent: #3E1A78;
+  --accent-light: #EEE8F8;
+  --dim-bg: #E8F8F2;
+  --dim-text: #90C8B8;
+  --dim-border: #B8E8D8;
+  --points-color: #3E1A78;
+}
+
+/* MLM pride dark theme */
+body.theme-mlm-dark {
+  --bg: #061410;
+  --surface: #0C2018;
+  --border: #0A3028;
+  --text: #E0F8F0;
+  --text-muted: #70B8A0;
+  --green: #26CEAA;
+  --green-light: #042818;
+  --green-border: #0A4830;
+  --red: #7B5ABB;
+  --red-light: #180A30;
+  --red-border: #3A1A60;
+  --selected-bg: #042818;
+  --selected-border: #26CEAA;
+  --selected-text: #80E8C8;
+  --accent: #7B5ABB;
+  --accent-light: #180A30;
+  --dim-bg: #081A12;
+  --dim-text: #1A4830;
+  --dim-border: #0C2820;
+  --points-color: #26CEAA;
+}
+
+/* WLW/Lesbian pride light theme */
+/* Official flag: #D62900, #FF9B55, #FFFFFF, #D461A6, #A50062 */
+body.theme-wlw {
+  --bg: #FFF8F0;
+  --surface: #FFFFFF;
+  --border: #FFCCA0;
+  --text: #2A0800;
+  --text-muted: #885030;
+  --green: #D62900;
+  --green-light: #FFF0E8;
+  --green-border: #FFB888;
+  --red: #A50062;
+  --red-light: #FFEEF8;
+  --red-border: #F0A0D0;
+  --selected-bg: #FFF0E8;
+  --selected-border: #D62900;
+  --selected-text: #881800;
+  --accent: #A50062;
+  --accent-light: #FFEEF8;
+  --dim-bg: #FFF4E8;
+  --dim-text: #DDA880;
+  --dim-border: #FFD8B0;
+  --points-color: #A50062;
+}
+
+/* WLW/Lesbian pride dark theme */
+body.theme-wlw-dark {
+  --bg: #1A0800;
+  --surface: #2A1000;
+  --border: #4A1800;
+  --text: #FFF0E8;
+  --text-muted: #CC8860;
+  --green: #FF6633;
+  --green-light: #300800;
+  --green-border: #601500;
+  --red: #D461A6;
+  --red-light: #2A0018;
+  --red-border: #601038;
+  --selected-bg: #300800;
+  --selected-border: #FF6633;
+  --selected-text: #FF9966;
+  --accent: #D461A6;
+  --accent-light: #2A0018;
+  --dim-bg: #200A00;
+  --dim-text: #502010;
+  --dim-border: #3A1000;
+  --points-color: #FF9B55;
+}
+
+/* Rainbow pride theme */
+/* Official flag: #E40303 #FF8C00 #FFED00 #008026 #004DFF #750787 */
+body.theme-rainbow {
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --border: #E8E8E8;
+  --text: #1C1917;
+  --text-muted: #78716C;
+  --green: #008026;
+  --green-light: #E8F8ED;
+  --green-border: #80C898;
+  --red: #E40303;
+  --red-light: #FEE8E8;
+  --red-border: #F09090;
+  --selected-bg: #E8F8ED;
+  --selected-border: #008026;
+  --selected-text: #004813;
+  --accent: #750787;
+  --accent-light: #F5E8F8;
+  --dim-bg: #F5F5F5;
+  --dim-text: #C0C0C0;
+  --dim-border: #E8E8E8;
+  --points-color: #FF8C00;
+}
+
+/* Rainbow: cycle level dot colours through the 6 flag colours */
+body.theme-rainbow .lvl-dot.solved {
+  background: #E8F8ED;
+  border-color: #008026;
+  color: #004813;
+}
+
+body.theme-rainbow .lvl-dot.next {
+  background: #750787;
+  border-color: #750787;
+  color: #fff;
+  box-shadow: 0 0 0 3px #F5E8F8;
+}
+
+body.theme-rainbow #logo span         { color: #E40303; }
+body.theme-rainbow #points-display    { color: #FF8C00; }
+body.theme-rainbow .map-section-label { color: #750787; }
+  --bg: #FDF0F7;
+  --surface: #FFFFFF;
+  --border: #F0B8D8;
+  --text: #1C1917;
+  --text-muted: #7B566E;
+  --green: #0038A8;
+  --green-light: #E6ECFB;
+  --green-border: #7FA4E0;
+  --red: #D60270;
+  --red-light: #FCEEF6;
+  --red-border: #F0A0CC;
+  --selected-bg: #E6ECFB;
+  --selected-border: #0038A8;
+  --selected-text: #002880;
+  --accent: #9B4F96;
+  --accent-light: #F5E8F5;
+  --dim-bg: #F9E8F4;
+  --dim-text: #C99ABF;
+  --dim-border: #F0B8D8;
+  --points-color: #9B4F96;
+}
+
+/* Bi pride dark theme */
+body.theme-bi-dark {
+  --bg: #1A0D18;
+  --surface: #2A1526;
+  --border: #5C2A58;
+  --text: #F5F0F5;
+  --text-muted: #C99ABF;
+  --green: #6B9FE8;
+  --green-light: #0A1A40;
+  --green-border: #1A3A7A;
+  --red: #F060A8;
+  --red-light: #3A0020;
+  --red-border: #7A1040;
+  --selected-bg: #0A1A40;
+  --selected-border: #6B9FE8;
+  --selected-text: #A0C0F0;
+  --accent: #C07ABB;
+  --accent-light: #2A0A28;
+  --dim-bg: #220E20;
+  --dim-text: #6B3A66;
+  --dim-border: #4A1A46;
+  --points-color: #C07ABB;
+}
+
 /* ── Layout ── */
 body {
   font-family: 'DM Sans', sans-serif;
@@ -462,6 +697,48 @@ body.theme-bi-dark .col-label,
 body.theme-bi-dark .row-label {
   background: #3A1A38;
   border-color: #6A3A66;
+}
+
+body.theme-trans .col-label,
+body.theme-trans .row-label {
+  background: #D8F2FC;
+  border-color: #90D0EC;
+}
+
+body.theme-trans-dark .col-label,
+body.theme-trans-dark .row-label {
+  background: #142838;
+  border-color: #204858;
+}
+
+body.theme-mlm .col-label,
+body.theme-mlm .row-label {
+  background: #D8F4EC;
+  border-color: #80C8B0;
+}
+
+body.theme-mlm-dark .col-label,
+body.theme-mlm-dark .row-label {
+  background: #0A2018;
+  border-color: #103828;
+}
+
+body.theme-wlw .col-label,
+body.theme-wlw .row-label {
+  background: #FFE8D0;
+  border-color: #FFBB88;
+}
+
+body.theme-wlw-dark .col-label,
+body.theme-wlw-dark .row-label {
+  background: #2A1000;
+  border-color: #4A1800;
+}
+
+body.theme-rainbow .col-label,
+body.theme-rainbow .row-label {
+  background: #F0F0F0;
+  border-color: #D8D8D8;
 }
 
 .col-label.exact, .row-label.exact,
