@@ -75,12 +75,13 @@ function renderCompanion() {
     area.innerHTML = '';
     return;
   }
-  // Don't re-render if already showing — preserves animation state
-  if (area.querySelector('#companion-svg')) return;
+  // Only skip re-render if the correct companion is already showing
+  const existing = area.querySelector('#companion-svg');
+  if (existing && existing.dataset.companionId === companionId) return;
   area.classList.add('has-companion');
   const item = SHOP_ITEMS.find(i => i.id === companionId);
   if (!item) return;
-  area.innerHTML = `<div id="companion-svg">${item.svgLarge()}</div>`;
+  area.innerHTML = `<div id="companion-svg" data-companion-id="${companionId}">${item.svgLarge()}</div>`;
 }
 
 function celebrateCompanion() {
