@@ -56,6 +56,15 @@ function renderProfile() {
   compTile.addEventListener('click', () => openCompanionPicker());
   content.appendChild(compTile);
 
+  // Shop CTA for companions
+  const ownedCompanions = SHOP_ITEMS.filter(i => i.type === 'companion' && isItemOwned(i.id));
+  content.appendChild(makeShopCTA(
+    ownedCompanions.length === 0
+      ? 'Get a companion in the shop'
+      : 'Browse more companions',
+    ownedCompanions.length === 0 ? 'companion' : null
+  ));
+
   // ── Theme ──────────────────────────────────────────────────
   const themeLabel = document.createElement('div');
   themeLabel.className   = 'profile-section-label';
@@ -80,6 +89,18 @@ function renderProfile() {
 
   themeTile.addEventListener('click', () => openThemePicker());
   content.appendChild(themeTile);
+
+  // Shop CTA for themes
+  const allThemes     = SHOP_ITEMS.filter(i => i.type === 'theme');
+  const ownedThemes   = allThemes.filter(i => isItemOwned(i.id));
+  const unownedThemes = allThemes.filter(i => !isItemOwned(i.id));
+  if (unownedThemes.length > 0) {
+    content.appendChild(makeShopCTA(
+      ownedThemes.length <= 2
+        ? 'Get more themes in the shop'
+        : 'Browse more themes'
+    ));
+  }
 }
 
 // ── Companion picker ─────────────────────────────────────────
@@ -197,6 +218,24 @@ function openThemePicker() {
 }
 
 // ── Stat card helper ─────────────────────────────────────────
+
+function makeShopCTA(label) {
+  const btn = document.createElement('button');
+  btn.className   = 'shop-cta-btn';
+  btn.innerHTML   = `
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <path d="M16 10a4 4 0 01-8 0"/>
+    </svg>
+    ${label}
+  `;
+  btn.addEventListener('click', () => {
+    renderShop();
+    showScreen('shop');
+  });
+  return btn;
+}
 
 function makeStatCard(label, value, isPoints = false) {
   const card = document.createElement('div');
