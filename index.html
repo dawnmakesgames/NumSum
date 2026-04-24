@@ -13,35 +13,66 @@
     --green: #1D9E75; --green-light: #E1F5EE; --green-border: #9FE1CB;
     --red: #E24B4A; --red-light: #FCEBEB; --red-border: #F7C1C1;
     --selected-bg: #E1F5EE; --selected-border: #1D9E75; --selected-text: #0F6E56;
-    --accent: #534AB7;
+    --accent: #534AB7; --accent-light: #EEEDFE;
+    --dim-bg: #F1EFE8; --dim-text: #B4B2A9; --dim-border: #E2DDD6;
   }
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; align-items: center; color: var(--text); }
-  #app { width: 100%; max-width: 420px; min-height: 100vh; display: flex; flex-direction: column; padding: 0 16px 32px; }
-  #top-bar { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 8px; }
+  #app { width: 100%; max-width: 420px; min-height: 100vh; display: flex; flex-direction: column; }
+  .screen { display: none; flex-direction: column; padding: 0 16px 32px; flex: 1; }
+  .screen.active { display: flex; }
+
+  /* ── Map ── */
+  #map-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 16px; }
   #logo { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; letter-spacing: -0.5px; }
   #logo span { color: var(--accent); }
-  #level-badge { font-size: 12px; font-weight: 500; color: var(--text-muted); background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; }
-  #mode-row, #level-row { display: flex; gap: 8px; margin-bottom: 10px; }
-  .mode-btn, .level-btn { flex: 1; padding: 8px 0; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all 0.15s; text-align: center; }
+  #progress-text { font-size: 12px; color: var(--text-muted); }
+  .map-legend { display: flex; gap: 16px; margin-bottom: 8px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 4px; border: 1px solid var(--border); flex-shrink: 0; }
+  .legend-dot.solved { background: var(--green-light); border-color: var(--green-border); }
+  .legend-dot.next { background: var(--accent); border-color: var(--accent); }
+  .legend-dot.locked { background: var(--bg); border-color: var(--border); }
+  .map-section-label { font-size: 11px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin: 16px 0 8px; }
+  #level-map { display: flex; flex-direction: column; }
+  .map-section { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 4px; }
+  .lvl-dot { aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 2px; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .lvl-dot:active { transform: scale(0.93); }
+  .lvl-dot .dot-num { font-size: 13px; font-weight: 500; line-height: 1; }
+  .lvl-dot .dot-size { font-size: 9px; font-weight: 400; opacity: 0.7; line-height: 1; }
+  .lvl-dot.solved { background: var(--green-light); border-color: var(--green-border); color: var(--green); }
+  .lvl-dot.next { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 0 3px var(--accent-light); }
+  .lvl-dot.next .dot-size { opacity: 0.8; }
+  .lvl-dot.available { background: var(--surface); border-color: var(--border); color: var(--text-muted); }
+  .lvl-dot.locked { background: var(--bg); border-color: var(--border); color: #B4B2A9; cursor: default; }
+  .lvl-dot.locked:active { transform: none; }
+
+  /* ── Game ── */
+  #game-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 10px; }
+  #back-btn { font-size: 13px; font-weight: 500; color: var(--text-muted); background: none; border: none; cursor: pointer; padding: 4px 0; font-family: 'DM Sans', sans-serif; }
+  #game-level-badge { font-size: 12px; font-weight: 500; color: var(--text-muted); background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; }
+  #mode-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .mode-btn { flex: 1; padding: 8px 0; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
   .mode-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
-  .level-btn { font-family: 'DM Mono', monospace; }
-  .level-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .level-btn.solved { border-color: var(--green-border); color: var(--green); }
-  .level-btn.active.solved { background: var(--green); color: #fff; border-color: var(--green); }
   #lives-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 14px; min-height: 32px; }
   .heart { width: 28px; height: 28px; }
   @keyframes heartbreak { 0%{transform:scale(1)} 40%{transform:scale(1.3)} 100%{transform:scale(0.85);opacity:0.4} }
   .heart.lost { animation: heartbreak 0.3s ease-out forwards; }
-  #grid-wrap { display: grid; grid-template-columns: 48px repeat(4, 1fr); grid-template-rows: 48px repeat(4, 1fr); gap: 5px; }
-  .corner { width: 48px; height: 48px; }
-  .col-label, .row-label { display: flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--text); min-height: 48px; position: relative; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+
+  #grid-wrap { display: grid; gap: 5px; }
+  .corner { }
+  .col-label, .row-label { display: flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; font-family: 'DM Mono', monospace; font-weight: 500; color: var(--text); position: relative; transition: border-color 0.2s, color 0.2s, background 0.2s; }
   .col-label.exact, .row-label.exact { border-color: var(--green-border); background: var(--green-light); color: var(--green); }
   .col-label.over, .row-label.over { border-color: var(--red-border); background: var(--red-light); color: var(--red); }
-  .label-sub { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 400; color: inherit; opacity: 0.65; position: absolute; bottom: 4px; right: 6px; line-height: 1; }
-  .cell { display: flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 400; color: var(--text); min-height: 64px; cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s; touch-action: manipulation; }
+  .label-sub { font-family: 'DM Mono', monospace; font-weight: 400; color: inherit; opacity: 0.65; position: absolute; bottom: 4px; right: 5px; line-height: 1; }
+
+  .cell { display: flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; font-family: 'DM Mono', monospace; font-weight: 400; color: var(--text); cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.1s, opacity 0.2s; touch-action: manipulation; }
   .cell:active { transform: scale(0.94); }
   .cell.selected { background: var(--selected-bg); border-color: var(--selected-border); color: var(--selected-text); font-weight: 500; }
   .cell.over-selected { background: var(--red-light); border-color: var(--red-border); color: var(--red); }
+  /* Dimmed state — row or column is complete and this cell is not selected */
+  .cell.dimmed { background: var(--dim-bg); border-color: var(--dim-border); color: var(--dim-text); }
+  .cell.dimmed:active { transform: none; }
+
   #msg-area { min-height: 28px; margin-top: 14px; text-align: center; }
   #message { font-size: 14px; color: var(--red); font-weight: 500; opacity: 0; transition: opacity 0.2s; }
   #message.show { opacity: 1; }
@@ -50,49 +81,81 @@
   @keyframes fadein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
   #win-title { font-size: 22px; font-weight: 600; color: var(--green); margin-top: 4px; }
   #gameover-title { font-size: 22px; font-weight: 600; color: var(--red); margin-top: 4px; }
-  .sub-text { font-size: 14px; color: var(--text-muted); }
+  .sub-text { font-size: 14px; color: var(--text-muted); text-align: center; }
   .btn { display: block; width: 100%; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; text-align: center; transition: background 0.15s, transform 0.1s; margin-top: 10px; }
   .btn:active { transform: scale(0.97); }
   .btn:hover { background: var(--bg); }
   .btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
   .btn-primary:hover { background: #3C3A36; }
+  .btn-green { background: var(--green); color: #fff; border-color: var(--green); }
+  .btn-green:hover { background: #0F6E56; }
 </style>
 </head>
 <body>
 <div id="app">
-  <div id="top-bar">
-    <div id="logo">Num<span>Sum</span></div>
-    <div id="level-badge">Level 1</div>
+
+  <!-- MAP SCREEN -->
+  <div id="screen-map" class="screen active">
+    <div id="map-top">
+      <div id="logo">Num<span>Sum</span></div>
+      <div id="progress-text"></div>
+    </div>
+    <div class="map-legend">
+      <div class="legend-item"><div class="legend-dot solved"></div>Solved</div>
+      <div class="legend-item"><div class="legend-dot next"></div>Up next</div>
+      <div class="legend-item"><div class="legend-dot locked"></div>Locked</div>
+    </div>
+    <div id="level-map"></div>
   </div>
-  <div id="mode-row">
-    <button class="mode-btn active" id="btn-lives" onclick="setMode('lives')">❤ Lives mode</button>
-    <button class="mode-btn" id="btn-free" onclick="setMode('free')">☁ Free mode</button>
+
+  <!-- GAME SCREEN -->
+  <div id="screen-game" class="screen">
+    <div id="game-top">
+      <button id="back-btn" onclick="showMap()">← Levels</button>
+      <div id="game-level-badge">Level 1</div>
+    </div>
+    <div id="mode-row">
+      <button class="mode-btn active" id="btn-lives" onclick="setMode('lives')">❤ Lives mode</button>
+      <button class="mode-btn" id="btn-free" onclick="setMode('free')">☁ Free mode</button>
+    </div>
+    <div id="lives-row"></div>
+    <div id="grid-wrap"></div>
+    <div id="msg-area"><div id="message"></div></div>
+    <div id="win-screen">
+      <div style="font-size:48px;line-height:1">🎉</div>
+      <div id="win-title">Puzzle solved!</div>
+      <div class="sub-text" id="win-sub"></div>
+      <button class="btn btn-green" id="next-btn" onclick="nextLevel()">Next level →</button>
+      <button class="btn" onclick="resetGame()">Play again</button>
+      <button class="btn" onclick="showMap()">Back to levels</button>
+    </div>
+    <div id="gameover-screen">
+      <div style="font-size:48px;line-height:1">💔</div>
+      <div id="gameover-title">No lives left!</div>
+      <div class="sub-text">Better luck next time.</div>
+      <button class="btn btn-primary" onclick="resetGame()">Try again</button>
+      <button class="btn" onclick="showMap()">Back to levels</button>
+    </div>
+    <button class="btn" id="reset-btn" onclick="resetGame()">Restart</button>
   </div>
-  <div id="level-row">
-    <button class="level-btn active" id="lvl-btn-0" onclick="goLevel(0)">Level 1</button>
-    <button class="level-btn" id="lvl-btn-1" onclick="goLevel(1)">Level 2</button>
-    <button class="level-btn" id="lvl-btn-2" onclick="goLevel(2)">Level 3</button>
-  </div>
-  <div id="lives-row"></div>
-  <div id="grid-wrap"></div>
-  <div id="msg-area"><div id="message"></div></div>
-  <div id="win-screen">
-    <div style="font-size:48px;line-height:1">🎉</div>
-    <div id="win-title">Puzzle solved!</div>
-    <div class="sub-text" id="win-sub"></div>
-    <button class="btn btn-primary" id="next-btn" onclick="nextLevel()">Next level →</button>
-    <button class="btn" onclick="resetGame()">Play again</button>
-  </div>
-  <div id="gameover-screen">
-    <div style="font-size:48px;line-height:1">💔</div>
-    <div id="gameover-title">No lives left!</div>
-    <div class="sub-text">Better luck next time.</div>
-    <button class="btn btn-primary" onclick="resetGame()">Try again</button>
-  </div>
-  <button class="btn" id="reset-btn" onclick="resetGame()">Restart</button>
+
 </div>
 <script>
 const LEVELS_RAW = [
+  // 3×3 levels (1–3)
+  {
+    grid: [[3,7,2],[5,1,8],[4,6,9]],
+    solution: [[1,0,0],[0,1,0],[0,0,1]]
+  },
+  {
+    grid: [[4,2,7],[1,8,3],[6,5,2]],
+    solution: [[1,0,1],[0,1,0],[1,0,0]]
+  },
+  {
+    grid: [[5,3,8],[2,7,4],[9,1,6]],
+    solution: [[1,1,0],[0,1,1],[1,0,1]]
+  },
+  // 4×4 levels (4–6)
   {
     grid: [[5,1,3,2],[4,4,1,8],[4,6,1,3],[5,7,7,1]],
     solution: [[0,1,0,1],[1,0,1,0],[0,1,0,1],[1,0,0,1]]
@@ -104,23 +167,132 @@ const LEVELS_RAW = [
   {
     grid: [[4,2,7,1],[6,5,3,8],[1,9,2,4],[3,1,8,5]],
     solution: [[1,1,0,1],[0,1,1,1],[1,0,1,0],[1,1,1,0]]
+  },
+  // 5×5 levels (7–9)
+  {
+    grid: [[3,7,2,8,4],[6,1,9,3,5],[2,5,4,7,1],[8,3,6,1,9],[4,9,1,5,2]],
+    solution: [[1,0,0,1,0],[0,1,0,0,1],[0,0,1,1,0],[1,0,1,0,0],[0,1,0,0,1]]
+  },
+  {
+    grid: [[5,2,8,1,6],[3,7,4,9,2],[1,6,3,5,8],[9,4,7,2,3],[2,8,1,6,4]],
+    solution: [[1,0,1,0,0],[0,1,0,1,0],[1,0,0,1,1],[0,1,1,0,1],[1,1,0,0,0]]
+  },
+  {
+    grid: [[7,3,9,2,5],[4,8,1,6,3],[2,5,7,4,9],[6,1,3,8,2],[9,4,5,1,7]],
+    solution: [[1,0,1,0,1],[0,1,0,1,0],[1,1,0,0,1],[0,0,1,1,0],[1,0,1,0,0]]
   }
 ];
 
+const SECTIONS = [
+  { label: 'Warm-up — 3×3', range: [0, 3], sizeLabel: '3×3' },
+  { label: 'Classic — 4×4',  range: [3, 6], sizeLabel: '4×4' },
+  { label: 'Challenge — 5×5', range: [6, 9], sizeLabel: '5×5' }
+];
+
+// First index of each section — always unlocked
+const SECTION_STARTS = SECTIONS.map(s => s.range[0]);
+
 function buildLevel(raw) {
+  const size = raw.grid.length;
   const rowTargets = raw.grid.map((row, r) =>
     row.reduce((s, v, c) => s + (raw.solution[r][c] ? v : 0), 0)
   );
-  const colTargets = [0,1,2,3].map(c =>
+  const colTargets = Array.from({length: size}, (_, c) =>
     raw.grid.reduce((s, row, r) => s + (raw.solution[r][c] ? row[c] : 0), 0)
   );
-  return { grid: raw.grid, rowTargets, colTargets };
+  return { grid: raw.grid, rowTargets, colTargets, size };
 }
 
 const LEVELS = LEVELS_RAW.map(buildLevel);
-const solved = [false, false, false];
+
+// ── Persistence ──────────────────────────────────────────────
+const SAVE_KEY = 'numsum_progress_v2';
+function loadProgress() {
+  try { const r = localStorage.getItem(SAVE_KEY); if (r) return JSON.parse(r); } catch(e) {}
+  return { solved: [] };
+}
+function saveProgress() {
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify({ solved: [...solvedLevels] })); } catch(e) {}
+}
+const progress = loadProgress();
+const solvedLevels = new Set(progress.solved || []);
+
+function isSolved(i) { return solvedLevels.has(i); }
+
+function isUnlocked(i) {
+  // First level of each section is always unlocked
+  if (SECTION_STARTS.includes(i)) return true;
+  // Otherwise need previous level solved
+  return isSolved(i - 1);
+}
+
+// ── Map ──────────────────────────────────────────────────────
+function showMap() {
+  document.getElementById('screen-game').classList.remove('active');
+  document.getElementById('screen-map').classList.add('active');
+  renderMap();
+}
+
+function dotState(i) {
+  if (isSolved(i)) return 'solved';
+  if (isUnlocked(i)) {
+    // Highlight as "next" only if it's the natural next unsolved level
+    // within its section, or the section opener
+    return 'next';
+  }
+  return 'locked';
+}
+
+function renderMap() {
+  const map = document.getElementById('level-map');
+  map.innerHTML = '';
+
+  SECTIONS.forEach(({ label, range, sizeLabel }) => {
+    const secLabel = document.createElement('div');
+    secLabel.className = 'map-section-label';
+    secLabel.textContent = label;
+    map.appendChild(secLabel);
+
+    const section = document.createElement('div');
+    section.className = 'map-section';
+
+    for (let i = range[0]; i < range[1]; i++) {
+      const dot = document.createElement('div');
+      const state = dotState(i);
+      dot.className = `lvl-dot ${state}`;
+
+      if (state === 'locked') {
+        dot.textContent = '🔒';
+      } else {
+        const num = document.createElement('div');
+        num.className = 'dot-num';
+        num.textContent = i + 1;
+        const sz = document.createElement('div');
+        sz.className = 'dot-size';
+        sz.textContent = sizeLabel;
+        dot.appendChild(num);
+        dot.appendChild(sz);
+        dot.addEventListener('click', () => startLevel(i));
+      }
+      section.appendChild(dot);
+    }
+    map.appendChild(section);
+  });
+
+  const solvedCount = solvedLevels.size;
+  document.getElementById('progress-text').textContent = `${solvedCount} / ${LEVELS.length} solved`;
+}
+
+// ── Game state ───────────────────────────────────────────────
 let currentLevel = 0, lives = 3, gameOver = false, won = false, mode = 'lives';
-let selected = Array.from({length:4}, () => Array(4).fill(false));
+let selected = [];
+
+function startLevel(n) {
+  currentLevel = n;
+  document.getElementById('screen-map').classList.remove('active');
+  document.getElementById('screen-game').classList.add('active');
+  resetGame();
+}
 
 function setMode(m) {
   mode = m;
@@ -129,14 +301,13 @@ function setMode(m) {
   resetGame();
 }
 
-function goLevel(n) { currentLevel = n; resetGame(); }
-
 function nextLevel() {
   if (currentLevel < LEVELS.length - 1) { currentLevel++; resetGame(); }
+  else showMap();
 }
 
 function heartSVG(full) {
-  return `<svg class="heart" viewBox="0 0 24 24" fill="${full ? '#D85A30' : '#D3D1C7'}" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+  return `<svg class="heart" viewBox="0 0 24 24" fill="${full?'#D85A30':'#D3D1C7'}" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
 }
 
 function renderLives() {
@@ -151,25 +322,24 @@ function renderLives() {
   }
 }
 
-function renderLevelBtns() {
-  LEVELS.forEach((_, i) => {
-    const btn = document.getElementById(`lvl-btn-${i}`);
-    btn.className = 'level-btn' + (solved[i] ? ' solved' : '') + (i === currentLevel ? ' active' : '');
-  });
-  document.getElementById('level-badge').textContent = `Level ${currentLevel + 1}`;
-  document.getElementById('next-btn').style.display = currentLevel < LEVELS.length - 1 ? 'block' : 'none';
+function makeSelected(size) {
+  return Array.from({length: size}, () => Array(size).fill(false));
 }
 
-function getRowSum(r) { return selected[r].reduce((s, v, c) => s + (v ? LEVELS[currentLevel].grid[r][c] : 0), 0); }
-function getColSum(c) { return LEVELS[currentLevel].grid.reduce((s, row, r) => s + (selected[r][c] ? row[c] : 0), 0); }
-
-function labelState(sum, target) {
-  return sum === target ? 'exact' : sum > target ? 'over' : '';
+function getRowSum(r) {
+  const L = LEVELS[currentLevel];
+  return selected[r].reduce((s, v, c) => s + (v ? L.grid[r][c] : 0), 0);
 }
+function getColSum(c) {
+  const L = LEVELS[currentLevel];
+  return L.grid.reduce((s, row, r) => s + (selected[r][c] ? row[c] : 0), 0);
+}
+function labelState(sum, target) { return sum===target?'exact':sum>target?'over':''; }
 
 function checkWin() {
   const L = LEVELS[currentLevel];
-  return L.rowTargets.every((t, r) => getRowSum(r) === t) && L.colTargets.every((t, c) => getColSum(c) === t);
+  return L.rowTargets.every((t,r) => getRowSum(r)===t)
+      && L.colTargets.every((t,c) => getColSum(c)===t);
 }
 
 function showMessage(txt) {
@@ -179,35 +349,81 @@ function showMessage(txt) {
   el._t = setTimeout(() => el.classList.remove('show'), 2000);
 }
 
+function gridSizing(size) {
+  if (size === 3) return { labelPx: 52, cellPx: 72, labelFont: 17, cellFont: 22, subFont: 11 };
+  if (size === 4) return { labelPx: 48, cellPx: 64, labelFont: 16, cellFont: 20, subFont: 10 };
+                  return { labelPx: 40, cellPx: 52, labelFont: 14, cellFont: 17, subFont: 9  };
+}
+
 function render() {
   const L = LEVELS[currentLevel];
+  const size = L.size;
+  const sz = gridSizing(size);
+  document.getElementById('game-level-badge').textContent = `Level ${currentLevel+1} · ${size}×${size}`;
+
+  // Pre-compute which rows and cols are exactly complete
+  const rowDone = L.rowTargets.map((t, r) => getRowSum(r) === t);
+  const colDone = L.colTargets.map((t, c) => getColSum(c) === t);
+
   const wrap = document.getElementById('grid-wrap');
   wrap.innerHTML = '';
-  wrap.appendChild(Object.assign(document.createElement('div'), {className: 'corner'}));
+  wrap.style.gridTemplateColumns = `${sz.labelPx}px repeat(${size}, 1fr)`;
+  wrap.style.gridTemplateRows = `${sz.labelPx}px repeat(${size}, ${sz.cellPx}px)`;
 
-  for (let c = 0; c < 4; c++) {
+  const corner = document.createElement('div');
+  corner.className = 'corner';
+  corner.style.cssText = `width:${sz.labelPx}px;height:${sz.labelPx}px;`;
+  wrap.appendChild(corner);
+
+  for (let c = 0; c < size; c++) {
     const lbl = document.createElement('div');
-    const cs = getColSum(c);
-    lbl.className = 'col-label' + (labelState(cs, L.colTargets[c]) ? ' ' + labelState(cs, L.colTargets[c]) : '');
+    const cs = getColSum(c), st = labelState(cs, L.colTargets[c]);
+    lbl.className = 'col-label' + (st ? ' '+st : '');
+    lbl.style.fontSize = sz.labelFont + 'px';
+    lbl.style.minHeight = sz.labelPx + 'px';
     lbl.textContent = L.colTargets[c];
-    if (cs > 0 && !won) { const s = document.createElement('span'); s.className = 'label-sub'; s.textContent = cs; lbl.appendChild(s); }
+    if (cs > 0 && !won) {
+      const s = document.createElement('span');
+      s.className = 'label-sub'; s.style.fontSize = sz.subFont+'px'; s.textContent = cs;
+      lbl.appendChild(s);
+    }
     wrap.appendChild(lbl);
   }
 
-  for (let r = 0; r < 4; r++) {
+  for (let r = 0; r < size; r++) {
     const rowLbl = document.createElement('div');
-    const rs = getRowSum(r);
-    rowLbl.className = 'row-label' + (labelState(rs, L.rowTargets[r]) ? ' ' + labelState(rs, L.rowTargets[r]) : '');
+    const rs = getRowSum(r), rst = labelState(rs, L.rowTargets[r]);
+    rowLbl.className = 'row-label' + (rst ? ' '+rst : '');
+    rowLbl.style.fontSize = sz.labelFont + 'px';
+    rowLbl.style.minHeight = sz.cellPx + 'px';
     rowLbl.textContent = L.rowTargets[r];
-    if (rs > 0 && !won) { const s = document.createElement('span'); s.className = 'label-sub'; s.textContent = rs; rowLbl.appendChild(s); }
+    if (rs > 0 && !won) {
+      const s = document.createElement('span');
+      s.className = 'label-sub'; s.style.fontSize = sz.subFont+'px'; s.textContent = rs;
+      rowLbl.appendChild(s);
+    }
     wrap.appendChild(rowLbl);
 
-    for (let c = 0; c < 4; c++) {
+    for (let c = 0; c < size; c++) {
       const cell = document.createElement('div');
       const rs2 = getRowSum(r), cs2 = getColSum(c);
       const isOver = selected[r][c] && (rs2 > L.rowTargets[r] || cs2 > L.colTargets[c]);
-      cell.className = 'cell' + (selected[r][c] ? (isOver ? ' over-selected' : ' selected') : '');
+      const isSelected = selected[r][c];
+
+      // Dim if not selected AND (its row is done OR its col is done)
+      const isDimmed = !isSelected && !won && (rowDone[r] || colDone[c]);
+
+      let cls = 'cell';
+      if (isSelected) cls += isOver ? ' over-selected' : ' selected';
+      else if (isDimmed) cls += ' dimmed';
+
+      cell.className = cls;
+      cell.style.fontSize = sz.cellFont + 'px';
+      cell.style.minHeight = sz.cellPx + 'px';
       cell.textContent = L.grid[r][c];
+
+      // Dimmed cells can still be clicked (in case player wants to undo)
+      // but we use pointer-events none only if game is over
       if (!gameOver && !won) cell.addEventListener('click', () => toggleCell(r, c));
       wrap.appendChild(cell);
     }
@@ -233,28 +449,32 @@ function toggleCell(r, c) {
 
   if (!gameOver && checkWin()) {
     won = true;
-    solved[currentLevel] = true;
-    document.getElementById('win-sub').textContent = currentLevel === LEVELS.length - 1
-      ? 'You cleared all levels! 🏆' : `Level ${currentLevel + 1} complete!`;
+    solvedLevels.add(currentLevel);
+    saveProgress();
+    const isLast = currentLevel === LEVELS.length - 1;
+    document.getElementById('win-sub').textContent = isLast
+      ? 'You cleared all levels! 🏆'
+      : `Level ${currentLevel + 1} complete!`;
+    document.getElementById('next-btn').style.display = isLast ? 'none' : 'block';
     document.getElementById('win-screen').classList.add('show');
     document.getElementById('reset-btn').style.display = 'none';
-    renderLevelBtns();
   }
   render();
 }
 
 function resetGame() {
+  const size = LEVELS[currentLevel].size;
   lives = 3;
-  selected = Array.from({length:4}, () => Array(4).fill(false));
+  selected = makeSelected(size);
   gameOver = false; won = false;
   document.getElementById('win-screen').classList.remove('show');
   document.getElementById('gameover-screen').classList.remove('show');
   document.getElementById('reset-btn').style.display = 'block';
   document.getElementById('message').classList.remove('show');
-  renderLives(); renderLevelBtns(); render();
+  renderLives(); render();
 }
 
-renderLives(); renderLevelBtns(); render();
+renderMap();
 </script>
 </body>
 </html>
