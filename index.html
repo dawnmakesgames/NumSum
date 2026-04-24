@@ -73,8 +73,17 @@
       </div>
     </div>
     <div id="mode-row">
-      <button class="mode-btn active" id="btn-lives" onclick="setMode('lives')">❤ Lives</button>
-      <button class="mode-btn" id="btn-free" onclick="setMode('free')">☁ Free</button>
+      <button class="mode-btn active" id="btn-lives" onclick="setMode('lives')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px;">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+        </svg>Lives
+      </button>
+      <button class="mode-btn" id="btn-free" onclick="setMode('free')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px;">
+          <path d="M18 10c0-3.31-2.69-6-6-6s-6 2.69-6 6c0 2.22 1.21 4.15 3 5.19V17h6v-1.81c1.79-1.04 3-2.97 3-5.19z"/>
+          <path d="M9 17v1a3 3 0 006 0v-1"/>
+        </svg>Free
+      </button>
     </div>
     <div id="lives-row"></div>
     <div id="companion-area"></div>
@@ -114,7 +123,7 @@
     <div class="shop-top">
       <button class="back-btn" onclick="showScreen('map')">← Back</button>
       <div class="screen-title">Themes</div>
-      <div id="points-display" class="points-pill" style="margin-left:auto;">
+      <div class="points-pill">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--points-color);flex-shrink:0;">
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
         </svg>
@@ -129,7 +138,7 @@
     <div class="shop-top">
       <button class="back-btn" onclick="showScreen('map')">← Back</button>
       <div class="screen-title">Companions</div>
-      <div id="points-display" class="points-pill" style="margin-left:auto;">
+      <div class="points-pill">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--points-color);flex-shrink:0;">
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
         </svg>
