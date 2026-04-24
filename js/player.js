@@ -62,7 +62,7 @@ function renderProfile() {
     ownedCompanions.length === 0
       ? 'Get a companion in the shop'
       : 'Browse more companions',
-    ownedCompanions.length === 0 ? 'companion' : null
+    'shop-companions'
   ));
 
   // ── Theme ──────────────────────────────────────────────────
@@ -96,9 +96,8 @@ function renderProfile() {
   const unownedThemes = allThemes.filter(i => !isItemOwned(i.id));
   if (unownedThemes.length > 0) {
     content.appendChild(makeShopCTA(
-      ownedThemes.length <= 2
-        ? 'Get more themes in the shop'
-        : 'Browse more themes'
+      ownedThemes.length <= 2 ? 'Get more themes in the shop' : 'Browse more themes',
+      'shop-themes'
     ));
   }
 }
@@ -219,10 +218,10 @@ function openThemePicker() {
 
 // ── Stat card helper ─────────────────────────────────────────
 
-function makeShopCTA(label) {
+function makeShopCTA(label, screen) {
   const btn = document.createElement('button');
-  btn.className   = 'shop-cta-btn';
-  btn.innerHTML   = `
+  btn.className = 'shop-cta-btn';
+  btn.innerHTML = `
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
       <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
       <line x1="3" y1="6" x2="21" y2="6"/>
@@ -230,10 +229,7 @@ function makeShopCTA(label) {
     </svg>
     ${label}
   `;
-  btn.addEventListener('click', () => {
-    renderShop();
-    showScreen('shop');
-  });
+  btn.addEventListener('click', () => showScreen(screen));
   return btn;
 }
 

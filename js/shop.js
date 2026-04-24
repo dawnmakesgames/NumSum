@@ -384,50 +384,45 @@ function pipSVGPaths(cx, cy, scale) {
 
 // ── Shop screen rendering ────────────────────────────────────
 
-function renderShop() {
-  document.getElementById('shop-points-count').textContent = getPoints();
-
-  const content = document.getElementById('shop-content');
+function renderThemeShop() {
+  const pts = getPoints();
+  document.getElementById('shop-themes-points-count').textContent = pts;
+  const content = document.getElementById('shop-themes-content');
   content.innerHTML = '';
 
-  // Themes section
-  const themeLabel = document.createElement('div');
-  themeLabel.className = 'shop-section-label';
-  themeLabel.textContent = 'Themes';
-  content.appendChild(themeLabel);
+  const label = document.createElement('div');
+  label.className = 'shop-section-label';
+  label.textContent = 'Themes';
+  content.appendChild(label);
+  const grid = document.createElement('div');
+  grid.className = 'shop-grid';
+  SHOP_ITEMS.filter(i => i.type === 'theme').forEach(item => grid.appendChild(makeShopItemEl(item)));
+  content.appendChild(grid);
 
-  const themeGrid = document.createElement('div');
-  themeGrid.className = 'shop-grid';
-  SHOP_ITEMS.filter(i => i.type === 'theme').forEach(item => {
-    themeGrid.appendChild(makeShopItemEl(item));
-  });
-  content.appendChild(themeGrid);
-
-  // Pride themes section
   const prideLabel = document.createElement('div');
   prideLabel.className = 'shop-section-label';
-  prideLabel.textContent = 'Pride Themes 🏳️‍🌈';
+  prideLabel.textContent = 'Pride Themes';
   content.appendChild(prideLabel);
-
   const prideGrid = document.createElement('div');
   prideGrid.className = 'shop-grid';
-  SHOP_ITEMS.filter(i => i.type === 'pride-theme').forEach(item => {
-    prideGrid.appendChild(makeShopItemEl(item));
-  });
+  SHOP_ITEMS.filter(i => i.type === 'pride-theme').forEach(item => prideGrid.appendChild(makeShopItemEl(item)));
   content.appendChild(prideGrid);
+}
 
-  // Companions section
-  const compLabel = document.createElement('div');
-  compLabel.className = 'shop-section-label';
-  compLabel.textContent = 'Companions';
-  content.appendChild(compLabel);
+function renderCompanionShop() {
+  const pts = getPoints();
+  document.getElementById('shop-companions-points-count').textContent = pts;
+  const content = document.getElementById('shop-companions-content');
+  content.innerHTML = '';
 
-  const compGrid = document.createElement('div');
-  compGrid.className = 'shop-grid';
-  SHOP_ITEMS.filter(i => i.type === 'companion').forEach(item => {
-    compGrid.appendChild(makeShopItemEl(item));
-  });
-  content.appendChild(compGrid);
+  const label = document.createElement('div');
+  label.className = 'shop-section-label';
+  label.textContent = 'Companions';
+  content.appendChild(label);
+  const grid = document.createElement('div');
+  grid.className = 'shop-grid';
+  SHOP_ITEMS.filter(i => i.type === 'companion').forEach(item => grid.appendChild(makeShopItemEl(item)));
+  content.appendChild(grid);
 }
 
 function makeShopItemEl(item) {
@@ -493,17 +488,17 @@ function buyItem_shop(item) {
   if (!spendPoints(item.price)) return;
   buyItem(item.id);
   equipItem(item);
-  renderShop();
 }
 
 function equipItem(item) {
   if (item.type === 'theme' || item.type === 'pride-theme') {
     setActiveTheme(item.id);
+    renderThemeShop();
   } else if (item.type === 'companion') {
     const current = getActiveCompanion();
     setActiveCompanion(current === item.id ? null : item.id);
+    renderCompanionShop();
   }
-  renderShop();
 }
 
 // ── Lottie SVG ───────────────────────────────────────────────

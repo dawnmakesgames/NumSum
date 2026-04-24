@@ -105,9 +105,9 @@ function applyTheme(id) {
 
 function refreshPointsDisplays() {
   const pts = getPoints();
-  document.querySelectorAll('#points-count, #shop-points-count').forEach(el => {
-    el.textContent = pts;
-  });
+  document.querySelectorAll(
+    '#points-count, #shop-themes-points-count, #shop-companions-points-count'
+  ).forEach(el => { el.textContent = pts; });
 }
 
 // ── Dev tools ────────────────────────────────────────────────
