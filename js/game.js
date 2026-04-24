@@ -105,7 +105,6 @@ function rowDoneCompanion() {
 // ── Confetti ─────────────────────────────────────────────────
 
 function launchConfetti() {
-  // Read theme colours from CSS variables
   const style  = getComputedStyle(document.body);
   const colors = [
     style.getPropertyValue('--accent').trim(),
@@ -121,38 +120,46 @@ function launchConfetti() {
     pointer-events: none; z-index: 999;
   `;
   document.body.appendChild(canvas);
-  const ctx   = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
   canvas.width  = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  const PIECES = 120;
-  const pieces = Array.from({ length: PIECES }, () => ({
-    x:     Math.random() * canvas.width,
-    y:     Math.random() * -canvas.height * 0.5 - 10,
-    w:     Math.random() * 8 + 5,
-    h:     Math.random() * 4 + 3,
-    color: colors[Math.floor(Math.random() * colors.length)],
-    rot:   Math.random() * Math.PI * 2,
-    vx:    (Math.random() - 0.5) * 4,
-    vy:    Math.random() * 3 + 2,
-    vr:    (Math.random() - 0.5) * 0.2,
-    swing: Math.random() * 0.05,
-    swingT: Math.random() * Math.PI * 2,
-    opacity: 1,
-  }));
+  // Explode from centre of the grid
+  const grid = document.getElementById('grid-wrap');
+  const rect  = grid ? grid.getBoundingClientRect() : null;
+  const originX = rect ? rect.left + rect.width  / 2 : canvas.width  / 2;
+  const originY = rect ? rect.top  + rect.height / 2 : canvas.height / 2;
+
+  const PIECES = 130;
+  const pieces = Array.from({ length: PIECES }, () => {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 12 + 4;
+    return {
+      x:      originX,
+      y:      originY,
+      w:      Math.random() * 8 + 4,
+      h:      Math.random() * 4 + 3,
+      color:  colors[Math.floor(Math.random() * colors.length)],
+      rot:    Math.random() * Math.PI * 2,
+      vx:     Math.cos(angle) * speed,
+      vy:     Math.sin(angle) * speed,
+      vr:     (Math.random() - 0.5) * 0.25,
+      opacity: 1,
+    };
+  });
 
   let frame = 0;
-  const DURATION = 140;
+  const DURATION  = 90;
+  const fadeStart = DURATION * 0.45;
 
   function tick() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     frame++;
-    const fadeStart = DURATION * 0.6;
     pieces.forEach(p => {
-      p.swingT += p.swing;
-      p.x  += p.vx + Math.sin(p.swingT) * 1.5;
+      p.x  += p.vx;
       p.y  += p.vy;
-      p.vy += 0.08;
+      p.vx *= 0.97;
+      p.vy  = p.vy * 0.97 + 0.3; // slight gravity
       p.rot += p.vr;
       if (frame > fadeStart) {
         p.opacity = Math.max(0, 1 - (frame - fadeStart) / (DURATION - fadeStart));
@@ -163,8 +170,7 @@ function launchConfetti() {
       ctx.rotate(p.rot);
       ctx.fillStyle = p.color;
       ctx.beginPath();
-      // Alternate between rectangles and circles for variety
-      if (p.w > 10) {
+      if (p.w > 9) {
         ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
       } else {
         ctx.rect(-p.w / 2, -p.h / 2, p.w, p.h);
