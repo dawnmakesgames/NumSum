@@ -400,8 +400,23 @@ body.theme-dark.theme-colorblind .row-label {
   border-color: #57534E;
 }
 
-.col-label.exact, .row-label.exact { border-color: var(--green-border); background: var(--green-light); color: var(--green); }
-.col-label.over,  .row-label.over  { border-color: var(--red-border);   background: var(--red-light);   color: var(--red); }
+.col-label.exact, .row-label.exact,
+body.theme-dark .col-label.exact, body.theme-dark .row-label.exact,
+body.theme-colorblind .col-label.exact, body.theme-colorblind .row-label.exact,
+body.theme-dark.theme-colorblind .col-label.exact, body.theme-dark.theme-colorblind .row-label.exact {
+  border-color: var(--green-border);
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.col-label.over, .row-label.over,
+body.theme-dark .col-label.over, body.theme-dark .row-label.over,
+body.theme-colorblind .col-label.over, body.theme-colorblind .row-label.over,
+body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorblind .row-label.over {
+  border-color: var(--red-border);
+  background: var(--red-light);
+  color: var(--red);
+}
 
 .label-sub {
   font-family: 'DM Mono', monospace;
