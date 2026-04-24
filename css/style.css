@@ -367,14 +367,33 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: #EAE7E0;
+  border: 1px solid #D4CFC7;
   border-radius: 10px;
   font-family: 'DM Mono', monospace;
   font-weight: 500;
   color: var(--text);
   position: relative;
   transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+body.theme-dark .col-label,
+body.theme-dark .row-label {
+  background: #3C3835;
+  border-color: #57534E;
+  color: var(--text);
+}
+
+body.theme-colorblind .col-label,
+body.theme-colorblind .row-label {
+  background: #EAE7E0;
+  border-color: #D4CFC7;
+}
+
+body.theme-dark.theme-colorblind .col-label,
+body.theme-dark.theme-colorblind .row-label {
+  background: #3C3835;
+  border-color: #57534E;
 }
 
 .col-label.exact, .row-label.exact { border-color: var(--green-border); background: var(--green-light); color: var(--green); }
