@@ -85,12 +85,13 @@ function renderCompanion() {
 }
 
 function celebrateCompanion() {
-  const el = document.getElementById('companion-svg');
-  if (!el) return;
-  el.classList.remove('companion-celebrate', 'companion-row-done');
-  el.classList.add('is-happy');
-  void el.offsetWidth;
-  el.classList.add('companion-celebrate');
+  const area = document.getElementById('companion-area');
+  const companionId = getActiveCompanion();
+  if (!companionId || !area) return;
+  const item = SHOP_ITEMS.find(i => i.id === companionId);
+  if (!item) return;
+  // Force re-render with happy face so it survives any repaint
+  area.innerHTML = `<div id="companion-svg" data-companion-id="${companionId}" class="is-happy companion-celebrate">${item.svgLarge()}</div>`;
 }
 
 function rowDoneCompanion() {
@@ -183,9 +184,8 @@ function launchConfetti() {
       requestAnimationFrame(tick);
     } else {
       document.body.removeChild(canvas);
-      // Re-apply happy face in case repaint reset it
-      const comp = document.getElementById('companion-svg');
-      if (comp && won) comp.classList.add('is-happy');
+      // Re-render companion with happy face to survive any repaint
+      if (won) celebrateCompanion();
     }
   }
 
