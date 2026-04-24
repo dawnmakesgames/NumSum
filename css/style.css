@@ -74,6 +74,55 @@ body.theme-dark.theme-colorblind {
   --selected-text: #7DD3FC;
 }
 
+/* Bi pride light theme */
+/* Official flag: pink #D60270, purple #9B4F96, blue #0038A8 */
+body.theme-bi {
+  --bg: #FDF0F7;
+  --surface: #FFFFFF;
+  --border: #F0B8D8;
+  --text: #1C1917;
+  --text-muted: #7B566E;
+  --green: #0038A8;
+  --green-light: #E6ECFB;
+  --green-border: #7FA4E0;
+  --red: #D60270;
+  --red-light: #FCEEF6;
+  --red-border: #F0A0CC;
+  --selected-bg: #E6ECFB;
+  --selected-border: #0038A8;
+  --selected-text: #002880;
+  --accent: #9B4F96;
+  --accent-light: #F5E8F5;
+  --dim-bg: #F9E8F4;
+  --dim-text: #C99ABF;
+  --dim-border: #F0B8D8;
+  --points-color: #9B4F96;
+}
+
+/* Bi pride dark theme */
+body.theme-bi-dark {
+  --bg: #1A0D18;
+  --surface: #2A1526;
+  --border: #5C2A58;
+  --text: #F5F0F5;
+  --text-muted: #C99ABF;
+  --green: #6B9FE8;
+  --green-light: #0A1A40;
+  --green-border: #1A3A7A;
+  --red: #F060A8;
+  --red-light: #3A0020;
+  --red-border: #7A1040;
+  --selected-bg: #0A1A40;
+  --selected-border: #6B9FE8;
+  --selected-text: #A0C0F0;
+  --accent: #C07ABB;
+  --accent-light: #2A0A28;
+  --dim-bg: #220E20;
+  --dim-text: #6B3A66;
+  --dim-border: #4A1A46;
+  --points-color: #C07ABB;
+}
+
 /* ── Layout ── */
 body {
   font-family: 'DM Sans', sans-serif;
@@ -401,6 +450,18 @@ body.theme-dark.theme-colorblind .col-label,
 body.theme-dark.theme-colorblind .row-label {
   background: #3C3835;
   border-color: #57534E;
+}
+
+body.theme-bi .col-label,
+body.theme-bi .row-label {
+  background: #F5E8F5;
+  border-color: #D4A0D0;
+}
+
+body.theme-bi-dark .col-label,
+body.theme-bi-dark .row-label {
+  background: #3A1A38;
+  border-color: #6A3A66;
 }
 
 .col-label.exact, .row-label.exact,
