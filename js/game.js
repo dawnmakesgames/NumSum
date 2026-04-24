@@ -81,9 +81,19 @@ function renderCompanion() {
 function celebrateCompanion() {
   const el = document.getElementById('companion-svg');
   if (!el) return;
-  el.classList.remove('companion-celebrate');
+  el.classList.remove('companion-celebrate', 'companion-row-done');
   void el.offsetWidth;
   el.classList.add('companion-celebrate');
+}
+
+function rowDoneCompanion() {
+  const el = document.getElementById('companion-svg');
+  if (!el) return;
+  // Don't interrupt a full celebration
+  if (el.classList.contains('companion-celebrate')) return;
+  el.classList.remove('companion-row-done');
+  void el.offsetWidth;
+  el.classList.add('companion-row-done');
 }
 
 // ── Grid helpers ─────────────────────────────────────────────
@@ -238,6 +248,11 @@ function toggleCell(r, c) {
       document.getElementById('reset-btn').style.display = 'none';
     }
   }
+
+  // Nudge Numby when a row or column is freshly completed
+  const rowJustDone = rs === L.rowTargets[r];
+  const colJustDone = cs === L.colTargets[c];
+  if ((rowJustDone || colJustDone) && !won) rowDoneCompanion();
 
   if (!gameOver && checkWin()) {
     won = true;
