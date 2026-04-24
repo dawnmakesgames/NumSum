@@ -425,6 +425,19 @@ body {
   gap: 3px;
 }
 
+.points-pill {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--points-color);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
 .icon-btn {
   width: 36px;
   height: 36px;
@@ -537,6 +550,13 @@ body {
   padding: 20px 0 10px;
 }
 
+.shop-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 16px;
+}
+
 .back-btn {
   font-size: 13px;
   font-weight: 500;
@@ -556,6 +576,10 @@ body {
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 4px 12px;
+}
+
+#points-display-game {
+  width: fit-content;
 }
 
 #mode-row { display: flex; gap: 8px; margin-bottom: 14px; }
