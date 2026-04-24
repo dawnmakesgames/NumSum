@@ -36,7 +36,7 @@ function renderProfile() {
       const preview = document.createElement('div');
       preview.className = 'companion-preview';
       preview.innerHTML = `
-        ${item.svgLarge()}
+        <div style="width:56px;height:56px;flex-shrink:0;">${item.svgLarge()}</div>
         <div class="companion-info">
           <div class="companion-name">${item.name}</div>
           <div class="companion-desc">${item.desc}</div>
