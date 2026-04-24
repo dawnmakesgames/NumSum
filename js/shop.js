@@ -64,13 +64,13 @@ const SHOP_ITEMS = [
 // adapts to all themes automatically
 
 function numbySmallSVG() {
-  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
+  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
     ${numbySVGPaths(28, 28, 0.7)}
   </svg>`;
 }
 
 function numbyLargeSVG() {
-  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
+  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
     ${numbySVGPaths(28, 28, 1)}
   </svg>`;
 }

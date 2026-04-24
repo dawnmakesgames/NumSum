@@ -72,6 +72,8 @@ function renderCompanion() {
     area.innerHTML = '';
     return;
   }
+  // Don't re-render if already showing — preserves animation state
+  if (area.querySelector('#companion-svg')) return;
   area.classList.add('has-companion');
   const item = SHOP_ITEMS.find(i => i.id === companionId);
   if (!item) return;
