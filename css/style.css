@@ -136,6 +136,9 @@ body {
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
 
 .icon-btn {
