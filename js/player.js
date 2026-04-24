@@ -91,7 +91,7 @@ function renderProfile() {
   content.appendChild(themeTile);
 
   // Shop CTA for themes
-  const allThemes     = SHOP_ITEMS.filter(i => i.type === 'theme');
+  const allThemes     = SHOP_ITEMS.filter(i => i.type === 'theme' || i.type === 'pride-theme');
   const ownedThemes   = allThemes.filter(i => isItemOwned(i.id));
   const unownedThemes = allThemes.filter(i => !isItemOwned(i.id));
   if (unownedThemes.length > 0) {
@@ -172,7 +172,7 @@ function openCompanionPicker() {
 // ── Theme picker ─────────────────────────────────────────────
 
 function openThemePicker() {
-  const owned  = SHOP_ITEMS.filter(i => i.type === 'theme' && isItemOwned(i.id));
+  const owned  = SHOP_ITEMS.filter(i => (i.type === 'theme' || i.type === 'pride-theme') && isItemOwned(i.id));
   const active = getActiveTheme();
 
   const overlay = document.createElement('div');

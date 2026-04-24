@@ -62,7 +62,7 @@ const SHOP_ITEMS = [
 
   {
     id:       'theme-bi',
-    type:     'theme',
+    type:     'pride-theme',
     name:     'Bi Pride',
     desc:     'Pink, purple & blue',
     price:    10,
@@ -76,7 +76,7 @@ const SHOP_ITEMS = [
   },
   {
     id:       'theme-bi-dark',
-    type:     'theme',
+    type:     'pride-theme',
     name:     'Bi Pride Dark',
     desc:     'Dark bi pride',
     price:    10,
@@ -85,6 +85,107 @@ const SHOP_ITEMS = [
         <div class="swatch-dot" style="background:#F060A8"></div>
         <div class="swatch-dot" style="background:#C07ABB"></div>
         <div class="swatch-dot" style="background:#6B9FE8"></div>
+      </div>`;
+    }
+  },
+  {
+    id:       'theme-trans',
+    type:     'pride-theme',
+    name:     'Trans Pride',
+    desc:     'Light blue, pink & white',
+    price:    10,
+    preview() {
+      return `<div class="theme-swatch" style="background:#F0FAFF;border-color:#B8E8FA;">
+        <div class="swatch-dot" style="background:#5BCEFA"></div>
+        <div class="swatch-dot" style="background:#F5A9B8"></div>
+        <div class="swatch-dot" style="background:#DDDDDD"></div>
+      </div>`;
+    }
+  },
+  {
+    id:       'theme-trans-dark',
+    type:     'pride-theme',
+    name:     'Trans Pride Dark',
+    desc:     'Dark trans pride',
+    price:    10,
+    preview() {
+      return `<div class="theme-swatch" style="background:#0A1520;border-color:#1A3A50;">
+        <div class="swatch-dot" style="background:#5BCEFA"></div>
+        <div class="swatch-dot" style="background:#F5A9B8"></div>
+        <div class="swatch-dot" style="background:#AAAAAA"></div>
+      </div>`;
+    }
+  },
+  {
+    id:       'theme-mlm',
+    type:     'pride-theme',
+    name:     'MLM Pride',
+    desc:     'Green, white, blue & purple',
+    price:    10,
+    preview() {
+      return `<div class="theme-swatch" style="background:#F0FBF7;border-color:#A0DEC4;">
+        <div class="swatch-dot" style="background:#078D70"></div>
+        <div class="swatch-dot" style="background:#7BADE3"></div>
+        <div class="swatch-dot" style="background:#3E1A78"></div>
+      </div>`;
+    }
+  },
+  {
+    id:       'theme-mlm-dark',
+    type:     'pride-theme',
+    name:     'MLM Pride Dark',
+    desc:     'Dark MLM pride',
+    price:    10,
+    preview() {
+      return `<div class="theme-swatch" style="background:#061410;border-color:#0A3028;">
+        <div class="swatch-dot" style="background:#26CEAA"></div>
+        <div class="swatch-dot" style="background:#7BADE3"></div>
+        <div class="swatch-dot" style="background:#7B5ABB"></div>
+      </div>`;
+    }
+  },
+  {
+    id:       'theme-wlw',
+    type:     'pride-theme',
+    name:     'WLW Pride',
+    desc:     'Orange, white & pink',
+    price:    10,
+    preview() {
+      return `<div class="theme-swatch" style="background:#FFF8F0;border-color:#FFCCA0;">
+        <div class="swatch-dot" style="background:#D62900"></div>
+        <div class="swatch-dot" style="background:#FF9B55"></div>
+        <div class="swatch-dot" style="background:#A50062"></div>
+      </div>`;
+    }
+  },
+  {
+    id:       'theme-wlw-dark',
+    type:     'pride-theme',
+    name:     'WLW Pride Dark',
+    desc:     'Dark WLW pride',
+    price:    10,
+    preview() {
+      return `<div class="theme-swatch" style="background:#1A0800;border-color:#4A1800;">
+        <div class="swatch-dot" style="background:#FF6633"></div>
+        <div class="swatch-dot" style="background:#FF9B55"></div>
+        <div class="swatch-dot" style="background:#D461A6"></div>
+      </div>`;
+    }
+  },
+  {
+    id:       'theme-rainbow',
+    type:     'pride-theme',
+    name:     'Rainbow',
+    desc:     'For everyone 🌈',
+    price:    15,
+    preview() {
+      return `<div class="theme-swatch" style="background:#FAFAFA;border-color:#E0E0E0;gap:1px;padding:4px;">
+        <div class="swatch-dot" style="background:#E40303;width:7px;height:7px;"></div>
+        <div class="swatch-dot" style="background:#FF8C00;width:7px;height:7px;"></div>
+        <div class="swatch-dot" style="background:#FFED00;width:7px;height:7px;"></div>
+        <div class="swatch-dot" style="background:#008026;width:7px;height:7px;"></div>
+        <div class="swatch-dot" style="background:#004DFF;width:7px;height:7px;"></div>
+        <div class="swatch-dot" style="background:#750787;width:7px;height:7px;"></div>
       </div>`;
     }
   },
@@ -291,6 +392,19 @@ function renderShop() {
     themeGrid.appendChild(makeShopItemEl(item));
   });
   content.appendChild(themeGrid);
+
+  // Pride themes section
+  const prideLabel = document.createElement('div');
+  prideLabel.className = 'shop-section-label';
+  prideLabel.textContent = 'Pride Themes 🏳️‍🌈';
+  content.appendChild(prideLabel);
+
+  const prideGrid = document.createElement('div');
+  prideGrid.className = 'shop-grid';
+  SHOP_ITEMS.filter(i => i.type === 'pride-theme').forEach(item => {
+    prideGrid.appendChild(makeShopItemEl(item));
+  });
+  content.appendChild(prideGrid);
 
   // Companions section
   const compLabel = document.createElement('div');
