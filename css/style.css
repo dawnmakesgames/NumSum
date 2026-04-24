@@ -657,6 +657,63 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
 
 .swatch-dot { width: 10px; height: 10px; border-radius: 50%; }
 
+/* ── Pagination ── */
+.pagination-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 6px 0 4px;
+}
+
+.page-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.page-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.page-arrow:not(:disabled):active { transform: scale(0.93); }
+.page-arrow:not(:disabled):hover  { border-color: var(--accent); color: var(--accent); }
+
+.page-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.page-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.page-dot.active {
+  background: var(--accent);
+  width: 20px;
+  border-radius: 4px;
+}
+
+.page-dot:not(.active):hover { background: var(--text-muted); }
+
 /* ── Inventory picker ── */
 .picker-overlay {
   position: fixed;
