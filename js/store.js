@@ -89,13 +89,17 @@ function setActiveCompanion(id) {
 // ── Theme application ────────────────────────────────────────
 
 function applyTheme(id) {
-  document.body.classList.remove('theme-dark', 'theme-colorblind');
+  document.body.classList.remove(
+    'theme-dark', 'theme-colorblind', 'theme-bi', 'theme-bi-dark'
+  );
   if (id === 'theme-dark')        document.body.classList.add('theme-dark');
   if (id === 'theme-colorblind')  document.body.classList.add('theme-colorblind');
   if (id === 'theme-dark-cb') {
     document.body.classList.add('theme-dark');
     document.body.classList.add('theme-colorblind');
   }
+  if (id === 'theme-bi')          document.body.classList.add('theme-bi');
+  if (id === 'theme-bi-dark')     document.body.classList.add('theme-bi-dark');
 }
 
 // ── UI helpers ───────────────────────────────────────────────

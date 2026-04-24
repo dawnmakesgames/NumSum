@@ -60,7 +60,34 @@ const SHOP_ITEMS = [
     }
   },
 
-  // ── Companions ──────────────────────────────────────────────
+  {
+    id:       'theme-bi',
+    type:     'theme',
+    name:     'Bi Pride',
+    desc:     'Pink, purple & blue',
+    price:    10,
+    preview() {
+      return `<div class="theme-swatch" style="background:#FDF0F7;border-color:#F0B8D8;">
+        <div class="swatch-dot" style="background:#D60270"></div>
+        <div class="swatch-dot" style="background:#9B4F96"></div>
+        <div class="swatch-dot" style="background:#0038A8"></div>
+      </div>`;
+    }
+  },
+  {
+    id:       'theme-bi-dark',
+    type:     'theme',
+    name:     'Bi Pride Dark',
+    desc:     'Dark bi pride',
+    price:    10,
+    preview() {
+      return `<div class="theme-swatch" style="background:#1A0D18;border-color:#5C2A58;">
+        <div class="swatch-dot" style="background:#F060A8"></div>
+        <div class="swatch-dot" style="background:#C07ABB"></div>
+        <div class="swatch-dot" style="background:#6B9FE8"></div>
+      </div>`;
+    }
+  },
   {
     id:    'companion-numby',
     type:  'companion',
