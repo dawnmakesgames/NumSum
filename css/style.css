@@ -310,17 +310,17 @@ body {
 /* Companion */
 #companion-area {
   display: flex;
-  justify-content: flex-end;
-  padding-right: 4px;
-  margin-bottom: 6px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
   min-height: 0;
 }
 
-#companion-area.has-companion { min-height: 52px; }
+#companion-area.has-companion { min-height: 64px; }
 
 #companion-svg {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   display: block;
   animation: companionFloat 3s ease-in-out infinite;
   transform-origin: center bottom;
@@ -333,13 +333,17 @@ body {
 }
 
 @keyframes companionWiggle {
-  0%   { transform: translateY(0px) rotate(0deg) scale(1); }
-  15%  { transform: translateY(-8px) rotate(-10deg) scale(1.15); }
-  30%  { transform: translateY(-6px) rotate(10deg) scale(1.15); }
-  45%  { transform: translateY(-4px) rotate(-6deg) scale(1.08); }
-  60%  { transform: translateY(-2px) rotate(6deg) scale(1.08); }
-  75%  { transform: translateY(-3px) rotate(-3deg) scale(1.04); }
-  100% { transform: translateY(0px) rotate(0deg) scale(1); }
+  0%   { transform: translateY(0px) scale(1); }
+  10%  { transform: translateY(-18px) scale(1.05); }
+  20%  { transform: translateY(0px) scale(0.95); }
+  30%  { transform: translateY(-14px) scale(1.05); }
+  40%  { transform: translateY(0px) scale(0.95); }
+  50%  { transform: translateY(-10px) scale(1.05); }
+  60%  { transform: translateY(0px) scale(0.95); }
+  70%  { transform: translateY(-6px) scale(1.02); }
+  80%  { transform: translateY(0px) scale(0.98); }
+  90%  { transform: translateY(-3px) scale(1.01); }
+  100% { transform: translateY(0px) scale(1); }
 }
 
 @keyframes companionRowDone {
@@ -351,8 +355,8 @@ body {
 }
 
 .companion-celebrate {
-  animation: companionWiggle 0.7s ease-in-out forwards,
-             companionFloat 3s ease-in-out 0.7s infinite !important;
+  animation: companionWiggle 1s ease-in-out forwards,
+             companionFloat 3s ease-in-out 1s infinite !important;
 }
 
 .companion-row-done {
@@ -619,7 +623,11 @@ body.theme-dark.theme-colorblind .row-label {
 .shop-item-price.owned { color: var(--green); border-color: var(--green-border); background: var(--green-light); }
 .shop-item-price.equipped { color: #fff; background: var(--accent); border-color: var(--accent); }
 
-/* Theme preview swatches */
+/* Numby face states */
+.numby-happy  { display: none; }
+.numby-normal { display: block; }
+#companion-svg.is-happy .numby-happy  { display: block; }
+#companion-svg.is-happy .numby-normal { display: none; }
 .theme-swatch {
   width: 56px;
   height: 40px;
