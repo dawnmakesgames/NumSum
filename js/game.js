@@ -90,8 +90,11 @@ function celebrateCompanion() {
   if (!companionId || !area) return;
   const item = SHOP_ITEMS.find(i => i.id === companionId);
   if (!item) return;
-  // Force re-render with happy face so it survives any repaint
-  area.innerHTML = `<div id="companion-svg" data-companion-id="${companionId}" class="is-happy companion-celebrate">${item.svgLarge()}</div>`;
+  // For Lottie, use the happy SVG variant directly (bypasses CSS class toggling)
+  const svg = companionId === 'companion-lottie'
+    ? item.svgLarge(true)
+    : item.svgLarge();
+  area.innerHTML = `<div id="companion-svg" data-companion-id="${companionId}" class="is-happy companion-celebrate">${svg}</div>`;
 }
 
 function rowDoneCompanion() {
