@@ -503,15 +503,15 @@ function equipItem(item) {
 
 // ── Lottie SVG ───────────────────────────────────────────────
 
-function lottieSmallSVG() {
+function lottieSmallSVG(happy = false) {
   return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-    ${lottieSVGPaths(28, 30, 0.48)}
+    ${lottieSVGPaths(28, 30, 0.48, happy)}
   </svg>`;
 }
 
-function lottieLargeSVG() {
+function lottieLargeSVG(happy = false) {
   return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-    ${lottieSVGPaths(28, 30, 0.62)}
+    ${lottieSVGPaths(28, 30, 0.62, happy)}
   </svg>`;
 }
 
@@ -529,7 +529,18 @@ function gillFeather(x1, y1, x2, y2, bx, by) {
   return lines;
 }
 
-function lottieSVGPaths(cx, cy, scale) {
+function lottieSVGPaths(cx, cy, scale, happy = false) {
+  const face = happy ? `
+    <text x="-10" y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
+    <text x="10"  y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
+    <path d="M-8,6 Q0,15 8,6" stroke="#C07080" stroke-width="2" stroke-linecap="round" fill="#FFF0F5"/>
+  ` : `
+    <circle cx="-10" cy="-5" r="5.5" fill="var(--text)"/>
+    <circle cx="-8"  cy="-7" r="2"   fill="var(--surface)"/>
+    <circle cx="10"  cy="-5" r="5.5" fill="var(--text)"/>
+    <circle cx="12"  cy="-7" r="2"   fill="var(--surface)"/>
+    <path d="M-6,6 Q0,11 6,6" stroke="#C07080" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  `;
   return `
     <g transform="translate(${cx}, ${cy}) scale(${scale})">
       ${gillFeather(-26, -6, -38, -18,  0.7, -0.7)}
@@ -542,19 +553,8 @@ function lottieSVGPaths(cx, cy, scale) {
       <ellipse cx="0" cy="7" rx="15" ry="12" fill="#FFF0F5" opacity="0.7"/>
       <ellipse cx="-15" cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
       <ellipse cx="15"  cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
-      <g class="numby-normal">
-        <circle cx="-10" cy="-5" r="5.5" fill="var(--text)"/>
-        <circle cx="-8"  cy="-7" r="2"   fill="var(--surface)"/>
-        <circle cx="10"  cy="-5" r="5.5" fill="var(--text)"/>
-        <circle cx="12"  cy="-7" r="2"   fill="var(--surface)"/>
-        <path d="M-6,6 Q0,11 6,6" stroke="#C07080" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      </g>
-      <g class="numby-happy">
-        <text x="-10" y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
-        <text x="10"  y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
-        <path d="M-8,6 Q0,15 8,6" stroke="#C07080" stroke-width="2" stroke-linecap="round" fill="#FFF0F5"/>
-      </g>
       <ellipse cx="0" cy="22" rx="8" ry="4" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1"/>
+      ${face}
     </g>
   `;
 }
