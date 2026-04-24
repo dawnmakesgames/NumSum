@@ -551,10 +551,18 @@ body {
 }
 
 .shop-top {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   padding: 20px 0 16px;
+}
+
+.shop-top .screen-title {
+  text-align: center;
+}
+
+.shop-top .points-pill {
+  justify-self: end;
 }
 
 .back-btn {
