@@ -510,13 +510,13 @@ function equipItem(item) {
 
 function lottieSmallSVG() {
   return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-    ${lottieSVGPaths(28, 30, 0.65)}
+    ${lottieSVGPaths(28, 30, 0.48)}
   </svg>`;
 }
 
 function lottieLargeSVG() {
   return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-    ${lottieSVGPaths(28, 30, 0.9)}
+    ${lottieSVGPaths(28, 30, 0.62)}
   </svg>`;
 }
 
