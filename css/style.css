@@ -543,6 +543,12 @@ body {
 .btn-dev { font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--red); background: var(--red-light); border: 1px solid var(--red-border); border-radius: 8px; padding: 8px 16px; cursor: pointer; }
 
 /* ── Game screen ── */
+#game-top-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 #game-top {
   display: flex;
   align-items: center;
