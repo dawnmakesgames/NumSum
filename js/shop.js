@@ -384,50 +384,45 @@ function pipSVGPaths(cx, cy, scale) {
 
 // ── Shop screen rendering ────────────────────────────────────
 
-function renderShop() {
-  document.getElementById('shop-points-count').textContent = getPoints();
-
-  const content = document.getElementById('shop-content');
+function renderThemeShop() {
+  const pts = getPoints();
+  document.getElementById('shop-themes-points-count').textContent = pts;
+  const content = document.getElementById('shop-themes-content');
   content.innerHTML = '';
 
-  // Themes section
-  const themeLabel = document.createElement('div');
-  themeLabel.className = 'shop-section-label';
-  themeLabel.textContent = 'Themes';
-  content.appendChild(themeLabel);
+  const label = document.createElement('div');
+  label.className = 'shop-section-label';
+  label.textContent = 'Themes';
+  content.appendChild(label);
+  const grid = document.createElement('div');
+  grid.className = 'shop-grid';
+  SHOP_ITEMS.filter(i => i.type === 'theme').forEach(item => grid.appendChild(makeShopItemEl(item)));
+  content.appendChild(grid);
 
-  const themeGrid = document.createElement('div');
-  themeGrid.className = 'shop-grid';
-  SHOP_ITEMS.filter(i => i.type === 'theme').forEach(item => {
-    themeGrid.appendChild(makeShopItemEl(item));
-  });
-  content.appendChild(themeGrid);
-
-  // Pride themes section
   const prideLabel = document.createElement('div');
   prideLabel.className = 'shop-section-label';
-  prideLabel.textContent = 'Pride Themes 🏳️‍🌈';
+  prideLabel.textContent = 'Pride Themes';
   content.appendChild(prideLabel);
-
   const prideGrid = document.createElement('div');
   prideGrid.className = 'shop-grid';
-  SHOP_ITEMS.filter(i => i.type === 'pride-theme').forEach(item => {
-    prideGrid.appendChild(makeShopItemEl(item));
-  });
+  SHOP_ITEMS.filter(i => i.type === 'pride-theme').forEach(item => prideGrid.appendChild(makeShopItemEl(item)));
   content.appendChild(prideGrid);
+}
 
-  // Companions section
-  const compLabel = document.createElement('div');
-  compLabel.className = 'shop-section-label';
-  compLabel.textContent = 'Companions';
-  content.appendChild(compLabel);
+function renderCompanionShop() {
+  const pts = getPoints();
+  document.getElementById('shop-companions-points-count').textContent = pts;
+  const content = document.getElementById('shop-companions-content');
+  content.innerHTML = '';
 
-  const compGrid = document.createElement('div');
-  compGrid.className = 'shop-grid';
-  SHOP_ITEMS.filter(i => i.type === 'companion').forEach(item => {
-    compGrid.appendChild(makeShopItemEl(item));
-  });
-  content.appendChild(compGrid);
+  const label = document.createElement('div');
+  label.className = 'shop-section-label';
+  label.textContent = 'Companions';
+  content.appendChild(label);
+  const grid = document.createElement('div');
+  grid.className = 'shop-grid';
+  SHOP_ITEMS.filter(i => i.type === 'companion').forEach(item => grid.appendChild(makeShopItemEl(item)));
+  content.appendChild(grid);
 }
 
 function makeShopItemEl(item) {
@@ -493,17 +488,75 @@ function buyItem_shop(item) {
   if (!spendPoints(item.price)) return;
   buyItem(item.id);
   equipItem(item);
-  renderShop();
 }
 
 function equipItem(item) {
   if (item.type === 'theme' || item.type === 'pride-theme') {
     setActiveTheme(item.id);
+    renderThemeShop();
   } else if (item.type === 'companion') {
     const current = getActiveCompanion();
     setActiveCompanion(current === item.id ? null : item.id);
+    renderCompanionShop();
   }
-  renderShop();
+}
+
+// ── Lottie SVG ───────────────────────────────────────────────
+
+function lottieSmallSVG(happy = false) {
+  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+    ${lottieSVGPaths(28, 30, 0.48, happy)}
+  </svg>`;
+}
+
+function lottieLargeSVG(happy = false) {
+  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+    ${lottieSVGPaths(28, 30, 0.62, happy)}
+  </svg>`;
+}
+
+function gillFeather(x1, y1, x2, y2, bx, by) {
+  const dx = x2 - x1, dy = y2 - y1;
+  const steps = 3;
+  let lines = `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#F5A9B8" stroke-width="1.8" stroke-linecap="round"/>`;
+  for (let i = 1; i <= steps; i++) {
+    const t = i / (steps + 1);
+    const mx = x1 + dx * t, my = y1 + dy * t;
+    const len = 4;
+    lines += `<line x1="${mx}" y1="${my}" x2="${mx + bx * len * (1 - t * 0.4)}" y2="${my + by * len * (1 - t * 0.4)}" stroke="#F5A9B8" stroke-width="1" stroke-linecap="round"/>`;
+    lines += `<line x1="${mx}" y1="${my}" x2="${mx - bx * len * 0.6 * (1 - t * 0.4)}" y2="${my - by * len * 0.6 * (1 - t * 0.4)}" stroke="#F5A9B8" stroke-width="1" stroke-linecap="round"/>`;
+  }
+  return lines;
+}
+
+function lottieSVGPaths(cx, cy, scale, happy = false) {
+  const face = happy ? `
+    <text x="-10" y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
+    <text x="10"  y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
+    <path d="M-8,6 Q0,15 8,6" stroke="#C07080" stroke-width="2" stroke-linecap="round" fill="#FFF0F5"/>
+  ` : `
+    <circle cx="-10" cy="-5" r="5.5" fill="var(--text)"/>
+    <circle cx="-8"  cy="-7" r="2"   fill="var(--surface)"/>
+    <circle cx="10"  cy="-5" r="5.5" fill="var(--text)"/>
+    <circle cx="12"  cy="-7" r="2"   fill="var(--surface)"/>
+    <path d="M-6,6 Q0,11 6,6" stroke="#C07080" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  `;
+  return `
+    <g transform="translate(${cx}, ${cy}) scale(${scale})">
+      ${gillFeather(-26, -6, -38, -18,  0.7, -0.7)}
+      ${gillFeather(-27,  1, -44,   1,  0,    1  )}
+      ${gillFeather(-26,  8, -38,  19, -0.7, -0.7)}
+      ${gillFeather( 26, -6,  38, -18, -0.7, -0.7)}
+      ${gillFeather( 27,  1,  44,   1,  0,    1  )}
+      ${gillFeather( 26,  8,  38,  19,  0.7, -0.7)}
+      <ellipse cx="0" cy="2" rx="26" ry="22" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1.5"/>
+      <ellipse cx="0" cy="7" rx="15" ry="12" fill="#FFF0F5" opacity="0.7"/>
+      <ellipse cx="-15" cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
+      <ellipse cx="15"  cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
+      <ellipse cx="0" cy="22" rx="8" ry="4" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1"/>
+      ${face}
+    </g>
+  `;
 }
 
 // ── Lottie SVG ───────────────────────────────────────────────

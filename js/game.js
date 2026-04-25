@@ -75,31 +75,124 @@ function renderCompanion() {
     area.innerHTML = '';
     return;
   }
-  // Don't re-render if already showing — preserves animation state
-  if (area.querySelector('#companion-svg')) return;
+  // Only skip re-render if the correct companion is already showing
+  const existing = area.querySelector('#companion-svg');
+  if (existing && existing.dataset.companionId === companionId) return;
   area.classList.add('has-companion');
   const item = SHOP_ITEMS.find(i => i.id === companionId);
   if (!item) return;
-  area.innerHTML = `<div id="companion-svg">${item.svgLarge()}</div>`;
+  area.innerHTML = `<div id="companion-svg" data-companion-id="${companionId}">${item.svgLarge()}</div>`;
 }
 
 function celebrateCompanion() {
-  const el = document.getElementById('companion-svg');
-  if (!el) return;
-  el.classList.remove('companion-celebrate', 'companion-row-done');
-  el.classList.add('is-happy');
-  void el.offsetWidth;
-  el.classList.add('companion-celebrate');
+  const area = document.getElementById('companion-area');
+  const companionId = getActiveCompanion();
+  if (!companionId || !area) return;
+  const item = SHOP_ITEMS.find(i => i.id === companionId);
+  if (!item) return;
+  // For Lottie, use the happy SVG variant directly (bypasses CSS class toggling)
+  const svg = companionId === 'companion-lottie'
+    ? item.svgLarge(true)
+    : item.svgLarge();
+  area.innerHTML = `<div id="companion-svg" data-companion-id="${companionId}" class="is-happy companion-celebrate">${svg}</div>`;
 }
 
 function rowDoneCompanion() {
   const el = document.getElementById('companion-svg');
   if (!el) return;
-  // Don't interrupt a full celebration
   if (el.classList.contains('companion-celebrate')) return;
   el.classList.remove('companion-row-done');
   void el.offsetWidth;
   el.classList.add('companion-row-done');
+}
+
+// ── Confetti ─────────────────────────────────────────────────
+
+function launchConfetti() {
+  const style  = getComputedStyle(document.body);
+  const colors = [
+    style.getPropertyValue('--accent').trim(),
+    style.getPropertyValue('--green').trim(),
+    style.getPropertyValue('--red').trim(),
+    style.getPropertyValue('--points-color').trim(),
+    style.getPropertyValue('--text').trim(),
+  ].filter(Boolean);
+
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = `
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 999;
+  `;
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  // Explode from centre of the grid
+  const grid = document.getElementById('grid-wrap');
+  const rect  = grid ? grid.getBoundingClientRect() : null;
+  const originX = rect ? rect.left + rect.width  / 2 : canvas.width  / 2;
+  const originY = rect ? rect.top  + rect.height / 2 : canvas.height / 2;
+
+  const PIECES = 130;
+  const pieces = Array.from({ length: PIECES }, () => {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 12 + 4;
+    return {
+      x:      originX,
+      y:      originY,
+      w:      Math.random() * 8 + 4,
+      h:      Math.random() * 4 + 3,
+      color:  colors[Math.floor(Math.random() * colors.length)],
+      rot:    Math.random() * Math.PI * 2,
+      vx:     Math.cos(angle) * speed,
+      vy:     Math.sin(angle) * speed,
+      vr:     (Math.random() - 0.5) * 0.25,
+      opacity: 1,
+    };
+  });
+
+  let frame = 0;
+  const DURATION  = 90;
+  const fadeStart = DURATION * 0.45;
+
+  function tick() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    frame++;
+    pieces.forEach(p => {
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.vx *= 0.97;
+      p.vy  = p.vy * 0.97 + 0.3; // slight gravity
+      p.rot += p.vr;
+      if (frame > fadeStart) {
+        p.opacity = Math.max(0, 1 - (frame - fadeStart) / (DURATION - fadeStart));
+      }
+      ctx.save();
+      ctx.globalAlpha = p.opacity;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      if (p.w > 9) {
+        ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+      } else {
+        ctx.rect(-p.w / 2, -p.h / 2, p.w, p.h);
+      }
+      ctx.fill();
+      ctx.restore();
+    });
+
+    if (frame < DURATION) {
+      requestAnimationFrame(tick);
+    } else {
+      document.body.removeChild(canvas);
+      // Re-render companion with happy face to survive any repaint
+      if (won) celebrateCompanion();
+    }
+  }
+
+  requestAnimationFrame(tick);
 }
 
 // ── Grid helpers ─────────────────────────────────────────────
@@ -144,7 +237,9 @@ function showMessage(txt) {
 function gridSizing(size) {
   if (size === 3) return { labelPx: 52, cellPx: 72, labelFont: 17, cellFont: 22, subFont: 11 };
   if (size === 4) return { labelPx: 48, cellPx: 64, labelFont: 16, cellFont: 20, subFont: 10 };
-                  return { labelPx: 40, cellPx: 52, labelFont: 14, cellFont: 17, subFont: 9  };
+  if (size === 5) return { labelPx: 40, cellPx: 52, labelFont: 14, cellFont: 17, subFont: 9  };
+  if (size === 6) return { labelPx: 34, cellPx: 44, labelFont: 13, cellFont: 15, subFont: 8  };
+                  return { labelPx: 30, cellPx: 38, labelFont: 12, cellFont: 13, subFont: 7  };
 }
 
 // ── Render grid ──────────────────────────────────────────────
@@ -262,20 +357,37 @@ function toggleCell(r, c) {
 
   if (!gameOver && checkWin()) {
     won = true;
-    const stars  = calcStars();
-    const base   = POINTS_PER_SIZE[L.size];
-    const bonus  = lives * POINTS_PER_LIFE;
-    const earned = mode === 'free' ? Math.floor(base * 0.5) : base + bonus;
+    const stars      = calcStars();
+    const prevStars  = getLevelStars(currentLevel);
+    const prevSolved = isLevelSolved(currentLevel);
+    const base       = POINTS_PER_SIZE[L.size];
+    const bonus      = lives * POINTS_PER_LIFE;
+    const fullPoints = mode === 'free' ? Math.floor(base * 0.5) : base + bonus;
+
+    // Only award points for improvement over previous best
+    let earned = 0;
+    if (!prevSolved) {
+      // First time — full points
+      earned = fullPoints;
+    } else if (stars > prevStars) {
+      // Beat previous best — award the difference
+      const prevBonus    = prevStars * POINTS_PER_LIFE;
+      const prevEarned   = mode === 'free' ? Math.floor(base * 0.5) : base + prevBonus;
+      earned = Math.max(0, fullPoints - prevEarned);
+    }
+    // If stars <= prevStars and already solved: earned stays 0
 
     solveLevel(currentLevel, stars);
-    addPoints(earned);
+    if (earned > 0) addPoints(earned);
     celebrateCompanion();
+    launchConfetti();
 
     const isLast = currentLevel === LEVELS.length - 1;
     document.getElementById('win-sub').textContent = isLast
       ? 'You cleared all levels! 🏆'
       : `Level ${currentLevel + 1} complete! ${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}`;
-    document.getElementById('points-earned-display').textContent = `+${earned} pts`;
+    document.getElementById('points-earned-display').textContent =
+      earned > 0 ? `+${earned} pts` : stars > prevStars ? '+0 pts (new best!)' : 'No new points — already solved';
     document.getElementById('next-btn').style.display = isLast ? 'none' : 'block';
     document.getElementById('win-screen').classList.add('show');
     document.getElementById('reset-btn').style.display = 'none';

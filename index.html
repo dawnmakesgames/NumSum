@@ -27,11 +27,22 @@
             <circle cx="12" cy="7" r="4"/>
           </svg>
         </button>
-        <button class="icon-btn" onclick="renderShop(); showScreen('shop')" title="Shop">
+        <button class="icon-btn" onclick="showScreen('shop-themes')" title="Themes">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <path d="M16 10a4 4 0 01-8 0"/>
+            <circle cx="13.5" cy="6.5" r="1.5"/>
+            <circle cx="17.5" cy="10.5" r="1.5"/>
+            <circle cx="8.5" cy="7.5" r="1.5"/>
+            <circle cx="6.5" cy="12.5" r="1.5"/>
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+          </svg>
+        </button>
+        <button class="icon-btn" onclick="showScreen('shop-companions')" title="Companions">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="6"   cy="7.5" rx="2"   ry="2.5"/>
+            <ellipse cx="10"  cy="5.5" rx="2"   ry="2.5"/>
+            <ellipse cx="14"  cy="5.5" rx="2"   ry="2.5"/>
+            <ellipse cx="18"  cy="7.5" rx="2"   ry="2.5"/>
+            <path d="M12 22c-4 0-7-2-7-5 0-1.5.8-2.8 2-3.7.8-.6 1.5-1.5 2-2.3h6c.5.8 1.2 1.7 2 2.3 1.2.9 2 2.2 2 3.7 0 3-3 5-7 5z"/>
           </svg>
         </button>
       </div>
@@ -53,17 +64,31 @@
     <div id="game-top">
       <button class="back-btn" onclick="showScreen('map')">← Levels</button>
       <div id="game-level-badge">Level 1</div>
+      <div id="points-display-game" class="points-pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--points-color);flex-shrink:0;">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        <span id="points-count-game">0</span>
+      </div>
     </div>
     <div id="mode-row">
-      <button class="mode-btn active" id="btn-lives" onclick="setMode('lives')">❤ Lives</button>
-      <button class="mode-btn" id="btn-free" onclick="setMode('free')">☁ Free</button>
+      <button class="mode-btn active" id="btn-lives" onclick="setMode('lives')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px;">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+        </svg>Lives
+      </button>
+      <button class="mode-btn" id="btn-free" onclick="setMode('free')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px;">
+          <path d="M17 8C8 10 5.9 16.17 3.82 19.34a1 1 0 00.78 1.57 11.66 11.66 0 0016.39-6.32C22.14 10.3 20 7 17 8z"/>
+          <path d="M8 19l4-9"/>
+        </svg>Cosy
+      </button>
     </div>
     <div id="lives-row"></div>
     <div id="companion-area"></div>
     <div id="grid-wrap"></div>
     <div id="msg-area"><div id="message"></div></div>
     <div id="win-screen">
-      <div id="win-emoji">🎉</div>
       <div id="win-title">Puzzle solved!</div>
       <div class="sub-text" id="win-sub"></div>
       <div id="points-earned-display"></div>
@@ -72,7 +97,6 @@
       <button class="btn" onclick="showScreen('map')">Back to levels</button>
     </div>
     <div id="gameover-screen">
-      <div style="font-size:48px;line-height:1">💔</div>
       <div id="gameover-title">No lives left!</div>
       <div class="sub-text" id="gameover-sub">You lost <span id="revive-cost-display"></span> points to restart.</div>
       <button class="btn btn-primary" id="revive-btn" onclick="spendPointsRevive()">Revive (−<span id="revive-cost-label"></span> pts)</button>
@@ -91,14 +115,34 @@
     <div id="profile-content"></div>
   </div>
 
-  <!-- SHOP SCREEN -->
-  <div id="screen-shop" class="screen">
-    <div id="shop-top">
-      <button class="back-btn" onclick="showScreen('profile')">← Back</button>
-      <div class="screen-title">Shop</div>
-      <div id="shop-points">⭐ <span id="shop-points-count">0</span></div>
+  <!-- THEMES SHOP SCREEN -->
+  <div id="screen-shop-themes" class="screen">
+    <div class="shop-top">
+      <button class="back-btn" onclick="showScreen('map')">← Back</button>
+      <div class="screen-title">Themes</div>
+      <div class="points-pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--points-color);flex-shrink:0;">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        <span id="shop-themes-points-count">0</span>
+      </div>
     </div>
-    <div id="shop-content"></div>
+    <div id="shop-themes-content"></div>
+  </div>
+
+  <!-- COMPANIONS SHOP SCREEN -->
+  <div id="screen-shop-companions" class="screen">
+    <div class="shop-top">
+      <button class="back-btn" onclick="showScreen('map')">← Back</button>
+      <div class="screen-title">Companions</div>
+      <div class="points-pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--points-color);flex-shrink:0;">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        <span id="shop-companions-points-count">0</span>
+      </div>
+    </div>
+    <div id="shop-companions-content"></div>
   </div>
 
 </div>

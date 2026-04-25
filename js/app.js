@@ -1,17 +1,17 @@
 // ── App entry point ──────────────────────────────────────────
 // Handles screen routing and app initialisation.
 
-const SCREENS = ['map', 'game', 'profile', 'shop'];
+const SCREENS = ['map', 'game', 'profile', 'shop-themes', 'shop-companions'];
 
 function showScreen(name) {
   SCREENS.forEach(s => {
     document.getElementById(`screen-${s}`).classList.toggle('active', s === name);
   });
 
-  // Run screen-specific setup when showing
-  if (name === 'map')     renderMap();
-  if (name === 'profile') renderProfile();
-  if (name === 'shop')    renderShop();
+  if (name === 'map')               renderMap();
+  if (name === 'profile')           renderProfile();
+  if (name === 'shop-themes')       renderThemeShop();
+  if (name === 'shop-companions')   renderCompanionShop();
 }
 
 // ── Boot ─────────────────────────────────────────────────────
