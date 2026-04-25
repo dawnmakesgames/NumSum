@@ -234,7 +234,11 @@ function showMessage(txt) {
 
 // ── Grid sizing ──────────────────────────────────────────────
 
-function gridSizing(size) {
+function gridSizing(size, isWTF) {
+  // WTF levels need wider cells for 2-digit numbers
+  if (isWTF && size === 3) return { labelPx: 60, cellPx: 80, labelFont: 17, cellFont: 20, subFont: 11 };
+  if (isWTF && size === 4) return { labelPx: 54, cellPx: 68, labelFont: 16, cellFont: 18, subFont: 10 };
+  if (isWTF && size === 5) return { labelPx: 46, cellPx: 56, labelFont: 14, cellFont: 16, subFont: 9  };
   if (size === 3) return { labelPx: 52, cellPx: 72, labelFont: 17, cellFont: 22, subFont: 11 };
   if (size === 4) return { labelPx: 48, cellPx: 64, labelFont: 16, cellFont: 20, subFont: 10 };
   if (size === 5) return { labelPx: 40, cellPx: 52, labelFont: 14, cellFont: 17, subFont: 9  };
@@ -247,9 +251,11 @@ function gridSizing(size) {
 function render() {
   const L    = LEVELS[currentLevel];
   const size = L.size;
-  const sz   = gridSizing(size);
+  const sz   = gridSizing(size, L.isWTF);
 
-  document.getElementById('game-level-badge').textContent = `Level ${currentLevel + 1} · ${size}×${size}`;
+  document.getElementById('game-level-badge').textContent = L.isWTF
+    ? `Level ${currentLevel + 1} · WTF`
+    : `Level ${currentLevel + 1} · ${size}×${size}`;
 
   const rowDone = L.rowTargets.map((t, r) => getRowSum(r) === t);
   const colDone = L.colTargets.map((t, c) => getColSum(c) === t);
@@ -360,7 +366,8 @@ function toggleCell(r, c) {
     const stars      = calcStars();
     const prevStars  = getLevelStars(currentLevel);
     const prevSolved = isLevelSolved(currentLevel);
-    const base       = POINTS_PER_SIZE[L.size];
+    const sizeKey    = L.isWTF ? 'wtf' : L.size;
+    const base       = POINTS_PER_SIZE[sizeKey];
     const bonus      = lives * POINTS_PER_LIFE;
     const fullPoints = mode === 'free' ? Math.floor(base * 0.5) : base + bonus;
 
@@ -399,7 +406,7 @@ function toggleCell(r, c) {
 // ── Revive ───────────────────────────────────────────────────
 
 function spendPointsRevive() {
-  const cost = REVIVE_COSTS[LEVELS[currentLevel].size];
+  const cost = REVIVE_COSTS[L.isWTF ? 'wtf' : L.size];
   if (!spendPoints(cost)) return;
   lives    = 1;
   gameOver = false;
