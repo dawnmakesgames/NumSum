@@ -1,7 +1,17 @@
-/* ── Reset & base ── */
+/* ════════════════════════════════════════════════════════════════
+   RESET
+   Removes default browser spacing/sizing so everything behaves
+   consistently across different browsers and devices.
+════════════════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── Theme variables ── */
+
+/* ════════════════════════════════════════════════════════════════
+   THEME VARIABLES — Classic (default)
+   CSS variables are like named colour slots. Every theme works by
+   swapping these values out — nothing else needs to change.
+   These are the warm off-white defaults (Classic theme).
+════════════════════════════════════════════════════════════════ */
 :root {
   --bg: #F7F5F0;
   --surface: #FFFFFF;
@@ -25,7 +35,11 @@
   --points-color: #BA7517;
 }
 
-/* Dark mode theme */
+/* ════════════════════════════════════════════════════════════════
+   THEME VARIABLES — Classic Dark
+   Dark brown tones. Overrides only the variables that change —
+   anything not listed here falls back to the :root defaults.
+════════════════════════════════════════════════════════════════ */
 body.theme-dark {
   --bg: #1C1917;
   --surface: #292524;
@@ -49,7 +63,13 @@ body.theme-dark {
   --points-color: #FCD34D;
 }
 
-/* Colourblind mode theme (blue/orange instead of green/red) */
+/* ════════════════════════════════════════════════════════════════
+   THEME VARIABLES — Accessible (colourblind-friendly)
+   Replaces green/red feedback with blue/orange, which is much
+   easier to distinguish for people with colour vision differences.
+   Note: this only overrides the feedback colours, not the whole
+   palette — so it combines with light or dark themes.
+════════════════════════════════════════════════════════════════ */
 body.theme-colorblind {
   --green: #0EA5E9;
   --green-light: #E0F2FE;
@@ -62,6 +82,8 @@ body.theme-colorblind {
   --selected-text: #0369A1;
 }
 
+/* Accessible Dark — both classes applied together (theme-dark + theme-colorblind).
+   These overrides take priority when both are active at once. */
 body.theme-dark.theme-colorblind {
   --green: #38BDF8;
   --green-light: #0C4A6E;
@@ -74,8 +96,13 @@ body.theme-dark.theme-colorblind {
   --selected-text: #7DD3FC;
 }
 
-/* Bi pride light theme */
-/* Official flag: pink #D60270, purple #9B4F96, blue #0038A8 */
+/* ════════════════════════════════════════════════════════════════
+   PRIDE THEMES
+   Each pride theme comes in a light and dark variant.
+   Official flag hex codes are noted above each one for reference.
+════════════════════════════════════════════════════════════════ */
+
+/* Bi Pride light — official flag: pink #D60270, purple #9B4F96, blue #0038A8 */
 body.theme-bi {
   --bg: #FDF0F7;
   --surface: #FFFFFF;
@@ -99,7 +126,7 @@ body.theme-bi {
   --points-color: #9B4F96;
 }
 
-/* Bi pride dark theme */
+/* Bi Pride dark */
 body.theme-bi-dark {
   --bg: #1A0D18;
   --surface: #2A1526;
@@ -123,8 +150,7 @@ body.theme-bi-dark {
   --points-color: #C07ABB;
 }
 
-/* Trans pride light theme */
-/* Official flag: blue #5BCEFA, pink #F5A9B8, white #FFFFFF */
+/* Trans Pride light — official flag: blue #5BCEFA, pink #F5A9B8, white #FFFFFF */
 body.theme-trans {
   --bg: #F0FAFF;
   --surface: #FFFFFF;
@@ -148,7 +174,7 @@ body.theme-trans {
   --points-color: #2090B8;
 }
 
-/* Trans pride dark theme */
+/* Trans Pride dark */
 body.theme-trans-dark {
   --bg: #0A1520;
   --surface: #102030;
@@ -172,8 +198,7 @@ body.theme-trans-dark {
   --points-color: #5BCEFA;
 }
 
-/* MLM pride light theme */
-/* Official flag: #078D70, #26CEAA, #99E8C2, #FFFFFF, #7BADE3, #3E1A78 */
+/* MLM Pride light — official flag: #078D70, #26CEAA, #99E8C2, #FFFFFF, #7BADE3, #3E1A78 */
 body.theme-mlm {
   --bg: #F0FBF7;
   --surface: #FFFFFF;
@@ -197,7 +222,7 @@ body.theme-mlm {
   --points-color: #3E1A78;
 }
 
-/* MLM pride dark theme */
+/* MLM Pride dark */
 body.theme-mlm-dark {
   --bg: #061410;
   --surface: #0C2018;
@@ -221,8 +246,7 @@ body.theme-mlm-dark {
   --points-color: #26CEAA;
 }
 
-/* WLW/Lesbian pride light theme */
-/* Official flag: #D62900, #FF9B55, #FFFFFF, #D461A6, #A50062 */
+/* WLW Pride light — official flag: #D62900, #FF9B55, #FFFFFF, #D461A6, #A50062 */
 body.theme-wlw {
   --bg: #FFF8F0;
   --surface: #FFFFFF;
@@ -246,7 +270,7 @@ body.theme-wlw {
   --points-color: #A50062;
 }
 
-/* WLW/Lesbian pride dark theme */
+/* WLW Pride dark */
 body.theme-wlw-dark {
   --bg: #1A0800;
   --surface: #2A1000;
@@ -270,53 +294,12 @@ body.theme-wlw-dark {
   --points-color: #FF9B55;
 }
 
-  --bg: #FDF0F7;
-  --surface: #FFFFFF;
-  --border: #F0B8D8;
-  --text: #1C1917;
-  --text-muted: #7B566E;
-  --green: #0038A8;
-  --green-light: #E6ECFB;
-  --green-border: #7FA4E0;
-  --red: #D60270;
-  --red-light: #FCEEF6;
-  --red-border: #F0A0CC;
-  --selected-bg: #E6ECFB;
-  --selected-border: #0038A8;
-  --selected-text: #002880;
-  --accent: #9B4F96;
-  --accent-light: #F5E8F5;
-  --dim-bg: #F9E8F4;
-  --dim-text: #C99ABF;
-  --dim-border: #F0B8D8;
-  --points-color: #9B4F96;
-}
-
-/* Bi pride dark theme */
-body.theme-bi-dark {
-  --bg: #1A0D18;
-  --surface: #2A1526;
-  --border: #5C2A58;
-  --text: #F5F0F5;
-  --text-muted: #C99ABF;
-  --green: #6B9FE8;
-  --green-light: #0A1A40;
-  --green-border: #1A3A7A;
-  --red: #F060A8;
-  --red-light: #3A0020;
-  --red-border: #7A1040;
-  --selected-bg: #0A1A40;
-  --selected-border: #6B9FE8;
-  --selected-text: #A0C0F0;
-  --accent: #C07ABB;
-  --accent-light: #2A0A28;
-  --dim-bg: #220E20;
-  --dim-text: #6B3A66;
-  --dim-border: #4A1A46;
-  --points-color: #C07ABB;
-}
-
-/* ── Layout ── */
+/* ════════════════════════════════════════════════════════════════
+   LAYOUT
+   Sets up the page body and the main app container.
+   The game is capped at 420px wide so it feels like a phone app
+   even on a desktop browser.
+════════════════════════════════════════════════════════════════ */
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg);
@@ -346,7 +329,11 @@ body {
 
 .screen.active { display: flex; }
 
-/* ── Map screen ── */
+/* ════════════════════════════════════════════════════════════════
+   MAP SCREEN
+   The level select screen — top bar, legend, level dots, and
+   the dev tools section at the bottom.
+════════════════════════════════════════════════════════════════ */
 #map-top {
   display: flex;
   align-items: center;
@@ -487,10 +474,11 @@ body {
 .lvl-dot.locked { background: var(--bg); border-color: var(--border); color: var(--dim-text); cursor: default; }
 .lvl-dot.locked:active { transform: none; }
 
-/* Star ratings on dots */
+/* Star rating shown on solved level dots (e.g. ★★☆) */
 .dot-stars { font-size: 8px; line-height: 1; letter-spacing: -1px; }
 
-/* Dev tools */
+/* Dev tools — "Clear all progress" button, shown at the bottom of the map.
+   To be removed before public release. */
 #dev-tools {
   margin-top: 32px;
   padding-top: 16px;
@@ -500,7 +488,11 @@ body {
 .dev-label { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; font-family: 'DM Mono', monospace; }
 .btn-dev { font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--red); background: var(--red-light); border: 1px solid var(--red-border); border-radius: 8px; padding: 8px 16px; cursor: pointer; }
 
-/* ── Game screen ── */
+/* ════════════════════════════════════════════════════════════════
+   GAME SCREEN
+   The puzzle itself — top bar, mode buttons, lives, companion,
+   grid, messages, win screen, and game over screen.
+════════════════════════════════════════════════════════════════ */
 #game-top-right {
   display: flex;
   align-items: center;
@@ -590,7 +582,10 @@ body {
 
 .heart.lost { animation: heartbreak 0.3s ease-out forwards; }
 
-/* Companion */
+/* ── Companion ──
+   The critter that floats above the grid. It idles with a gentle
+   float, bounces when a row/column is completed, and wiggles with
+   a happy face when the puzzle is solved. */
 #companion-area {
   display: flex;
   justify-content: center;
@@ -647,7 +642,9 @@ body {
              companionFloat 3s ease-in-out 0.4s infinite !important;
 }
 
-/* Grid */
+/* ── Grid ──
+   The puzzle grid is built dynamically by game.js — this just
+   sets the gap between cells. Column count is set inline. */
 #grid-wrap { display: grid; gap: 5px; }
 
 .col-label, .row-label {
@@ -784,12 +781,16 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
 .cell.dimmed        { background: var(--dim-bg); border-color: var(--dim-border); color: var(--dim-text); }
 .cell.dimmed:active { transform: none; }
 
-/* Message */
+/* ── Feedback message ──
+   The small text that appears briefly, e.g. "Over the target — lost a life!"
+   It fades in when shown and fades out when hidden. */
 #msg-area { min-height: 28px; margin-top: 14px; text-align: center; }
 #message  { font-size: 14px; color: var(--red); font-weight: 500; opacity: 0; transition: opacity 0.2s; }
 #message.show { opacity: 1; }
 
-/* Win / game over */
+/* ── Win / game over screens ──
+   Hidden by default (display: none). The .show class is added
+   by game.js when the puzzle is solved or all lives are lost. */
 #win-screen, #gameover-screen {
   display: none;
   flex-direction: column;
@@ -818,7 +819,12 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
   min-height: 24px;
 }
 
-/* ── Buttons ── */
+/* ════════════════════════════════════════════════════════════════
+   BUTTONS
+   The base .btn style is a full-width white button. Variants:
+   .btn-primary — dark fill (e.g. Revive)
+   .btn-green   — green fill (e.g. Next level)
+════════════════════════════════════════════════════════════════ */
 .btn {
   display: block;
   width: 100%;
@@ -843,7 +849,10 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
 .btn-green { background: var(--green); color: #fff; border-color: var(--green); }
 .btn-green:hover { background: #0F6E56; }
 
-/* ── Profile screen ── */
+/* ════════════════════════════════════════════════════════════════
+   PROFILE SCREEN
+   Stats cards, companion preview tile, and links to the shops.
+════════════════════════════════════════════════════════════════ */
 #profile-top, #shop-top {
   display: flex;
   align-items: center;
@@ -872,7 +881,7 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
   color: var(--points-color);
 }
 
-/* Profile cards */
+/* Profile stat cards — the 2-column grid of numbers (levels solved, points, etc.) */
 .profile-section-label {
   font-size: 11px;
   font-weight: 500;
@@ -926,7 +935,12 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
   font-style: italic;
 }
 
-/* ── Shop screen ── */
+/* ════════════════════════════════════════════════════════════════
+   SHOP SCREENS
+   Theme and companion shop — 2-column grid of purchasable items.
+   States: default, owned (green tint), active/equipped (accent
+   border), locked (faded out, not clickable).
+════════════════════════════════════════════════════════════════ */
 .shop-section-label {
   font-size: 11px;
   font-weight: 500;
@@ -979,7 +993,10 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
 .shop-item-price.owned { color: var(--green); border-color: var(--green-border); background: var(--green-light); }
 .shop-item-price.equipped { color: #fff; background: var(--accent); border-color: var(--accent); }
 
-/* Numby face states */
+/* ── Companion face states ──
+   All companions share .numby-normal and .numby-happy CSS classes.
+   The normal face is shown by default; happy face shows on puzzle
+   complete. Swapped by adding .is-happy to #companion-svg. */
 .numby-happy  { display: none; }
 .numby-normal { display: block; }
 #companion-svg.is-happy .numby-happy  { display: block; }
@@ -998,7 +1015,11 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
 
 .swatch-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-/* ── Pagination ── */
+/* ════════════════════════════════════════════════════════════════
+   PAGINATION
+   The ← · · → row shown below each section on the level map
+   when there are more levels than fit on one page.
+════════════════════════════════════════════════════════════════ */
 .pagination-row {
   display: flex;
   align-items: center;
@@ -1055,7 +1076,12 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
 
 .page-dot:not(.active):hover { background: var(--text-muted); }
 
-/* ── Inventory picker ── */
+/* ════════════════════════════════════════════════════════════════
+   INVENTORY PICKER
+   The bottom sheet that slides up when you tap "Change companion"
+   or "Change theme" on the profile screen. Clicking the dark
+   overlay behind it dismisses it.
+════════════════════════════════════════════════════════════════ */
 .picker-overlay {
   position: fixed;
   inset: 0;

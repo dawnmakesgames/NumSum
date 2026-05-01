@@ -1,8 +1,32 @@
-// ── Shop item definitions ────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// SHOP
+// Defines every purchasable item in the game and handles the two
+// shop screens (Themes and Companions).
+//
+// Each item in SHOP_ITEMS is an object with:
+//   id       — unique string used in localStorage (e.g. 'theme-dark')
+//   type     — 'theme', 'pride-theme', or 'companion'
+//   name     — display name shown in the shop and profile
+//   desc     — one-line description shown below the name
+//   price    — cost in points (0 = free)
+//   preview  — function that returns an HTML string for the shop card
+//   svgSmall — (companions only) small version of the critter SVG
+//   svgLarge — (companions only) large version used in the companion area
+//
+// The SVG drawings for each companion are built entirely in code
+// using inline SVG — no image files needed.
+// ════════════════════════════════════════════════════════════════
+
 
 const SHOP_ITEMS = [
 
-  // ── Themes ──────────────────────────────────────────────────
+  // ════════════════════════════════════════════════════════════════
+  // THEMES
+  // The four main themes. Classic and Accessible are free for
+  // everyone. Classic Dark and Accessible Dark cost 35 points each.
+  // Ordered in pairs: Classic / Classic Dark, Accessible / Accessible Dark.
+  // ════════════════════════════════════════════════════════════════
+
   {
     id:       'theme-default',
     type:     'theme',
@@ -10,6 +34,7 @@ const SHOP_ITEMS = [
     desc:     'The original warm look',
     price:    0,
     preview() {
+      // Three colour swatches: green (correct), purple (accent), red (over)
       return `<div class="theme-swatch" style="background:#F7F5F0;border-color:#E2DDD6;">
         <div class="swatch-dot" style="background:#1D9E75"></div>
         <div class="swatch-dot" style="background:#534AB7"></div>
@@ -38,6 +63,7 @@ const SHOP_ITEMS = [
     desc:     'Blue & orange — free for everyone',
     price:    0,
     preview() {
+      // Blue replaces green for "correct", orange replaces red for "over"
       return `<div class="theme-swatch" style="background:#F7F5F0;border-color:#E2DDD6;">
         <div class="swatch-dot" style="background:#0EA5E9"></div>
         <div class="swatch-dot" style="background:#534AB7"></div>
@@ -59,6 +85,13 @@ const SHOP_ITEMS = [
       </div>`;
     }
   },
+
+
+  // ════════════════════════════════════════════════════════════════
+  // PRIDE THEMES
+  // All use verified official flag hex colours.
+  // Paired light/dark for each flag, 10 pts each.
+  // ════════════════════════════════════════════════════════════════
 
   {
     id:       'theme-bi',
@@ -172,6 +205,20 @@ const SHOP_ITEMS = [
       </div>`;
     }
   },
+
+
+  // ════════════════════════════════════════════════════════════════
+  // COMPANIONS
+  // Critters that sit above the puzzle grid.
+  // svgSmall — used in the shop card and profile preview
+  // svgLarge — used in the actual game (companion area)
+  //
+  // The happy parameter (Lottie only): most companions switch face
+  // via CSS (.numby-normal / .numby-happy). Lottie bakes the face
+  // directly into the SVG via the happy flag because CSS class
+  // toggling caused her eyes to disappear on repaint.
+  // ════════════════════════════════════════════════════════════════
+
   {
     id:    'companion-numby',
     type:  'companion',
@@ -209,12 +256,20 @@ const SHOP_ITEMS = [
     desc:  'A pink axolotl with very fancy gills',
     price: 140,
     svgSmall() { return lottieSmallSVG(); },
-    svgLarge() { return lottieLargeSVG(); },
+    // happy=true is passed by celebrateCompanion() on puzzle solve —
+    // this forwards it so Lottie's SVG is drawn with star eyes + big smile
+    svgLarge(happy = false) { return lottieLargeSVG(happy); },
     preview() { return lottieSmallSVG(); }
   }
 ];
 
-// ── Numby SVG ────────────────────────────────────────────────
+
+// ════════════════════════════════════════════════════════════════
+// NUMBY SVG
+// A round ghost shape with a wavy bottom edge, two dot eyes with
+// highlight spots, rosy cheeks, and a small smile.
+// Normal/happy face toggled via CSS (.numby-normal / .numby-happy).
+// ════════════════════════════════════════════════════════════════
 
 function numbySmallSVG() {
   return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
@@ -228,12 +283,15 @@ function numbyLargeSVG() {
   </svg>`;
 }
 
+// cx/cy = centre point, scale = size multiplier (0.7 for small, 1 for large)
 function numbySVGPaths(cx, cy, scale) {
   const s = scale;
   return `
     <g transform="translate(${cx}, ${cy}) scale(${s})">
+      <!-- ghost body — rounded top with a wavy hem at the bottom -->
       <path d="M0,-22 C12,-22 20,-14 20,-4 L20,14 C20,14 15,10 10,14 C5,18 0,14 0,14 C0,14 -5,18 -10,14 C-15,10 -20,14 -20,14 L-20,-4 C-20,-14 -12,-22 0,-22 Z"
         fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
+      <!-- normal face — two eyes and a small smile, hidden on celebrate -->
       <g class="numby-normal">
         <circle cx="-7" cy="-6" r="4" fill="var(--text)"/>
         <circle cx="-6" cy="-7" r="1.5" fill="var(--surface)"/>
@@ -241,18 +299,25 @@ function numbySVGPaths(cx, cy, scale) {
         <circle cx="8" cy="-7" r="1.5" fill="var(--surface)"/>
         <path d="M-5,2 Q0,7 5,2" stroke="var(--text)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
       </g>
+      <!-- happy face — star eyes and big open grin, shown on celebrate -->
       <g class="numby-happy">
         <text x="-7" y="-2" text-anchor="middle" font-size="10" fill="var(--text)">★</text>
         <text x="7"  y="-2" text-anchor="middle" font-size="10" fill="var(--text)">★</text>
         <path d="M-7,4 Q0,12 7,4" stroke="var(--text)" stroke-width="2" stroke-linecap="round" fill="var(--green-light)"/>
       </g>
+      <!-- rosy cheeks -->
       <ellipse cx="-11" cy="0" rx="3" ry="2" fill="var(--red)" opacity="0.3"/>
       <ellipse cx="11"  cy="0" rx="3" ry="2" fill="var(--red)" opacity="0.3"/>
     </g>
   `;
 }
 
-// ── Bun SVG ──────────────────────────────────────────────────
+
+// ════════════════════════════════════════════════════════════════
+// BUN SVG
+// A round rabbit body with tall thin ears (pink inner ear),
+// a fluffy tail, and the same normal/happy CSS face system.
+// ════════════════════════════════════════════════════════════════
 
 function bunSmallSVG() {
   return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
@@ -269,7 +334,7 @@ function bunLargeSVG() {
 function bunSVGPaths(cx, cy, scale) {
   return `
     <g transform="translate(${cx}, ${cy}) scale(${scale})">
-      <!-- left ear -->
+      <!-- left ear — outer shape + inner pink -->
       <ellipse cx="-8" cy="-28" rx="4" ry="10"
         fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
       <ellipse cx="-8" cy="-28" rx="2" ry="7" fill="var(--red)" opacity="0.25"/>
@@ -280,7 +345,7 @@ function bunSVGPaths(cx, cy, scale) {
       <!-- body -->
       <ellipse cx="0" cy="0" rx="18" ry="16"
         fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
-      <!-- tail -->
+      <!-- fluffy tail at the bottom -->
       <circle cx="0" cy="14" r="5"
         fill="var(--surface)" stroke="var(--border)" stroke-width="1"/>
       <!-- normal face -->
@@ -291,7 +356,7 @@ function bunSVGPaths(cx, cy, scale) {
         <circle cx="7"  cy="-4" r="1.2" fill="var(--surface)"/>
         <!-- little nose -->
         <ellipse cx="0" cy="3" rx="2" ry="1.2" fill="var(--red)" opacity="0.5"/>
-        <!-- mouth -->
+        <!-- gentle smile -->
         <path d="M-3,5 Q0,8 3,5" stroke="var(--text)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
       </g>
       <!-- happy face -->
@@ -301,14 +366,19 @@ function bunSVGPaths(cx, cy, scale) {
         <ellipse cx="0" cy="3" rx="2" ry="1.2" fill="var(--red)" opacity="0.5"/>
         <path d="M-5,6 Q0,12 5,6" stroke="var(--text)" stroke-width="2" stroke-linecap="round" fill="var(--green-light)"/>
       </g>
-      <!-- cheeks -->
+      <!-- rosy cheeks -->
       <ellipse cx="-12" cy="2" rx="3" ry="2" fill="var(--red)" opacity="0.2"/>
       <ellipse cx="12"  cy="2" rx="3" ry="2" fill="var(--red)" opacity="0.2"/>
     </g>
   `;
 }
 
-// ── Pip SVG ──────────────────────────────────────────────────
+
+// ════════════════════════════════════════════════════════════════
+// PIP SVG
+// A wide, squat frog with protruding eye bumps, a pale belly patch,
+// little feet, and the same normal/happy CSS face system.
+// ════════════════════════════════════════════════════════════════
 
 function pipSmallSVG() {
   return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
@@ -328,21 +398,19 @@ function pipSVGPaths(cx, cy, scale) {
       <!-- body — wide and squat -->
       <ellipse cx="0" cy="2" rx="20" ry="15"
         fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
-      <!-- belly patch -->
+      <!-- belly patch — lighter oval in the middle -->
       <ellipse cx="0" cy="5" rx="12" ry="9" fill="var(--bg)" opacity="0.6"/>
-      <!-- left eye bump -->
+      <!-- eye bumps — circles that sit on top of the head -->
       <circle cx="-9" cy="-12" r="6"
         fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
-      <!-- right eye bump -->
       <circle cx="9" cy="-12" r="6"
         fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
-      <!-- left foot -->
+      <!-- little feet -->
       <ellipse cx="-14" cy="14" rx="6" ry="3"
         fill="var(--surface)" stroke="var(--border)" stroke-width="1"/>
-      <!-- right foot -->
       <ellipse cx="14" cy="14" rx="6" ry="3"
         fill="var(--surface)" stroke="var(--border)" stroke-width="1"/>
-      <!-- normal face -->
+      <!-- normal face — eyes on the bumps, wide frog mouth -->
       <g class="numby-normal">
         <circle cx="-9" cy="-12" r="3.5" fill="var(--text)"/>
         <circle cx="-8" cy="-13" r="1.2" fill="var(--surface)"/>
@@ -351,11 +419,10 @@ function pipSVGPaths(cx, cy, scale) {
         <!-- wide frog mouth -->
         <path d="M-8,6 Q0,10 8,6" stroke="var(--text)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
       </g>
-      <!-- happy face -->
+      <!-- happy face — star eyes, big frog grin -->
       <g class="numby-happy">
         <text x="-9" y="-8" text-anchor="middle" font-size="9" fill="var(--text)">★</text>
         <text x="9"  y="-8" text-anchor="middle" font-size="9" fill="var(--text)">★</text>
-        <!-- big frog grin -->
         <path d="M-10,5 Q0,14 10,5" stroke="var(--text)" stroke-width="2" stroke-linecap="round" fill="var(--green-light)"/>
       </g>
       <!-- cheeks -->
@@ -365,14 +432,101 @@ function pipSVGPaths(cx, cy, scale) {
   `;
 }
 
-// ── Shop screen rendering ────────────────────────────────────
 
+// ════════════════════════════════════════════════════════════════
+// LOTTIE SVG
+// A pink axolotl with feathery external gills on each side.
+// Unlike the other companions, Lottie's face is baked directly
+// into the SVG rather than toggled with CSS classes. This is
+// because the CSS class approach caused her eyes to disappear
+// on repaint — so the happy parameter controls which face is
+// drawn at render time instead.
+// ════════════════════════════════════════════════════════════════
+
+function lottieSmallSVG(happy = false) {
+  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+    ${lottieSVGPaths(28, 30, 0.48, happy)}
+  </svg>`;
+}
+
+function lottieLargeSVG(happy = false) {
+  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+    ${lottieSVGPaths(28, 30, 0.62, happy)}
+  </svg>`;
+}
+
+// Draws one feathery gill branch: a main spine line with short
+// barb lines fanning out from it at regular intervals.
+// (x1,y1) → (x2,y2) is the spine. (bx,by) is the barb direction.
+function gillFeather(x1, y1, x2, y2, bx, by) {
+  const dx = x2 - x1, dy = y2 - y1;
+  const steps = 3;
+  let lines = `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#F5A9B8" stroke-width="1.8" stroke-linecap="round"/>`;
+  for (let i = 1; i <= steps; i++) {
+    const t = i / (steps + 1);
+    const mx = x1 + dx * t, my = y1 + dy * t;
+    const len = 4;
+    // One barb pointing "outward", one pointing "inward" (slightly shorter)
+    lines += `<line x1="${mx}" y1="${my}" x2="${mx + bx * len * (1 - t * 0.4)}" y2="${my + by * len * (1 - t * 0.4)}" stroke="#F5A9B8" stroke-width="1" stroke-linecap="round"/>`;
+    lines += `<line x1="${mx}" y1="${my}" x2="${mx - bx * len * 0.6 * (1 - t * 0.4)}" y2="${my - by * len * 0.6 * (1 - t * 0.4)}" stroke="#F5A9B8" stroke-width="1" stroke-linecap="round"/>`;
+  }
+  return lines;
+}
+
+// Builds Lottie's full SVG paths. The face changes based on happy:
+//   happy=false → normal dot eyes + gentle curve mouth
+//   happy=true  → star eyes + big open smile (used on puzzle solve)
+function lottieSVGPaths(cx, cy, scale, happy = false) {
+  const face = happy ? `
+    <text x="-10" y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
+    <text x="10"  y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
+    <path d="M-8,6 Q0,15 8,6" stroke="#C07080" stroke-width="2" stroke-linecap="round" fill="#FFF0F5"/>
+  ` : `
+    <circle cx="-10" cy="-5" r="5.5" fill="var(--text)"/>
+    <circle cx="-8"  cy="-7" r="2"   fill="var(--surface)"/>
+    <circle cx="10"  cy="-5" r="5.5" fill="var(--text)"/>
+    <circle cx="12"  cy="-7" r="2"   fill="var(--surface)"/>
+    <path d="M-6,6 Q0,11 6,6" stroke="#C07080" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  `;
+  return `
+    <g transform="translate(${cx}, ${cy}) scale(${scale})">
+      <!-- six gill branches — three on each side -->
+      ${gillFeather(-26, -6, -38, -18,  0.7, -0.7)}
+      ${gillFeather(-27,  1, -44,   1,  0,    1  )}
+      ${gillFeather(-26,  8, -38,  19, -0.7, -0.7)}
+      ${gillFeather( 26, -6,  38, -18, -0.7, -0.7)}
+      ${gillFeather( 27,  1,  44,   1,  0,    1  )}
+      ${gillFeather( 26,  8,  38,  19,  0.7, -0.7)}
+      <!-- body — pink oval -->
+      <ellipse cx="0" cy="2" rx="26" ry="22" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1.5"/>
+      <!-- belly patch -->
+      <ellipse cx="0" cy="7" rx="15" ry="12" fill="#FFF0F5" opacity="0.7"/>
+      <!-- cheeks -->
+      <ellipse cx="-15" cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
+      <ellipse cx="15"  cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
+      <!-- little tail nub at the bottom -->
+      <ellipse cx="0" cy="22" rx="8" ry="4" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1"/>
+      <!-- face (normal or happy, determined at render time) -->
+      ${face}
+    </g>
+  `;
+}
+
+
+// ════════════════════════════════════════════════════════════════
+// SHOP SCREEN RENDERING
+// Builds the themes and companions shop screens from scratch each
+// time they're shown. All items come from the SHOP_ITEMS array above.
+// ════════════════════════════════════════════════════════════════
+
+// Builds the Themes shop screen: main themes section + pride themes section.
 function renderThemeShop() {
   const pts = getPoints();
   document.getElementById('shop-themes-points-count').textContent = pts;
   const content = document.getElementById('shop-themes-content');
   content.innerHTML = '';
 
+  // Main themes section (Classic, Classic Dark, Accessible, Accessible Dark)
   const label = document.createElement('div');
   label.className = 'shop-section-label';
   label.textContent = 'Themes';
@@ -382,6 +536,7 @@ function renderThemeShop() {
   SHOP_ITEMS.filter(i => i.type === 'theme').forEach(item => grid.appendChild(makeShopItemEl(item)));
   content.appendChild(grid);
 
+  // Pride themes section (bi, trans, mlm, wlw — each in light and dark)
   const prideLabel = document.createElement('div');
   prideLabel.className = 'shop-section-label';
   prideLabel.textContent = 'Pride Themes';
@@ -392,6 +547,7 @@ function renderThemeShop() {
   content.appendChild(prideGrid);
 }
 
+// Builds the Companions shop screen.
 function renderCompanionShop() {
   const pts = getPoints();
   document.getElementById('shop-companions-points-count').textContent = pts;
@@ -408,9 +564,13 @@ function renderCompanionShop() {
   content.appendChild(grid);
 }
 
+// Creates the card element for a single shop item.
+// Shows preview, name, description, and a Buy / Equip / Active badge.
+// Greys out items the player can't afford yet.
 function makeShopItemEl(item) {
   const el       = document.createElement('div');
   const owned    = isItemOwned(item.id);
+  // Is this item currently active? Themes check activeTheme, companions check activeCompanion
   const isActive = (item.type === 'theme' || item.type === 'pride-theme')
     ? getActiveTheme() === item.id
     : getActiveCompanion() === item.id;
@@ -421,7 +581,7 @@ function makeShopItemEl(item) {
     (isActive ? ' active-item' : '') +
     (!owned && !canAfford ? ' locked-item' : '');
 
-  // Preview
+  // Visual preview (colour swatch for themes, critter SVG for companions)
   const preview = document.createElement('div');
   preview.className = 'shop-item-preview';
   preview.innerHTML = item.preview();
@@ -433,13 +593,13 @@ function makeShopItemEl(item) {
   name.textContent = item.name;
   el.appendChild(name);
 
-  // Desc
+  // Short description
   const desc = document.createElement('div');
   desc.className   = 'shop-item-desc';
   desc.textContent = item.desc;
   el.appendChild(desc);
 
-  // Price / status badge
+  // Status badge — changes based on ownership + active state
   const badge = document.createElement('div');
   badge.className = 'shop-item-price';
   if (isActive) {
@@ -453,26 +613,31 @@ function makeShopItemEl(item) {
     badge.classList.add('free');
   } else {
     badge.textContent = `⭐ ${item.price}`;
-    if (!canAfford) badge.style.opacity = '0.5';
+    if (!canAfford) badge.style.opacity = '0.5'; // dimmed if can't afford
   }
   el.appendChild(badge);
 
-  // Click handler
+  // Tapping an owned item equips it; tapping an affordable unowned item buys it
   if (owned) {
     el.addEventListener('click', () => equipItem(item));
   } else if (canAfford) {
     el.addEventListener('click', () => buyItem_shop(item));
   }
+  // (If the player can't afford it, the card is non-interactive)
 
   return el;
 }
 
+// Deducts points, marks the item as owned in the save, then equips it immediately.
 function buyItem_shop(item) {
   if (!spendPoints(item.price)) return;
   buyItem(item.id);
   equipItem(item);
 }
 
+// Applies an item: sets it as the active theme or companion, then
+// refreshes the shop screen so the Active badge moves to the new item.
+// For companions, tapping the active one a second time unequips it.
 function equipItem(item) {
   if (item.type === 'theme' || item.type === 'pride-theme') {
     setActiveTheme(item.id);
@@ -482,120 +647,4 @@ function equipItem(item) {
     setActiveCompanion(current === item.id ? null : item.id);
     renderCompanionShop();
   }
-}
-
-// ── Lottie SVG ───────────────────────────────────────────────
-
-function lottieSmallSVG(happy = false) {
-  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-    ${lottieSVGPaths(28, 30, 0.48, happy)}
-  </svg>`;
-}
-
-function lottieLargeSVG(happy = false) {
-  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-    ${lottieSVGPaths(28, 30, 0.62, happy)}
-  </svg>`;
-}
-
-function gillFeather(x1, y1, x2, y2, bx, by) {
-  const dx = x2 - x1, dy = y2 - y1;
-  const steps = 3;
-  let lines = `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#F5A9B8" stroke-width="1.8" stroke-linecap="round"/>`;
-  for (let i = 1; i <= steps; i++) {
-    const t = i / (steps + 1);
-    const mx = x1 + dx * t, my = y1 + dy * t;
-    const len = 4;
-    lines += `<line x1="${mx}" y1="${my}" x2="${mx + bx * len * (1 - t * 0.4)}" y2="${my + by * len * (1 - t * 0.4)}" stroke="#F5A9B8" stroke-width="1" stroke-linecap="round"/>`;
-    lines += `<line x1="${mx}" y1="${my}" x2="${mx - bx * len * 0.6 * (1 - t * 0.4)}" y2="${my - by * len * 0.6 * (1 - t * 0.4)}" stroke="#F5A9B8" stroke-width="1" stroke-linecap="round"/>`;
-  }
-  return lines;
-}
-
-function lottieSVGPaths(cx, cy, scale, happy = false) {
-  const face = happy ? `
-    <text x="-10" y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
-    <text x="10"  y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
-    <path d="M-8,6 Q0,15 8,6" stroke="#C07080" stroke-width="2" stroke-linecap="round" fill="#FFF0F5"/>
-  ` : `
-    <circle cx="-10" cy="-5" r="5.5" fill="var(--text)"/>
-    <circle cx="-8"  cy="-7" r="2"   fill="var(--surface)"/>
-    <circle cx="10"  cy="-5" r="5.5" fill="var(--text)"/>
-    <circle cx="12"  cy="-7" r="2"   fill="var(--surface)"/>
-    <path d="M-6,6 Q0,11 6,6" stroke="#C07080" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-  `;
-  return `
-    <g transform="translate(${cx}, ${cy}) scale(${scale})">
-      ${gillFeather(-26, -6, -38, -18,  0.7, -0.7)}
-      ${gillFeather(-27,  1, -44,   1,  0,    1  )}
-      ${gillFeather(-26,  8, -38,  19, -0.7, -0.7)}
-      ${gillFeather( 26, -6,  38, -18, -0.7, -0.7)}
-      ${gillFeather( 27,  1,  44,   1,  0,    1  )}
-      ${gillFeather( 26,  8,  38,  19,  0.7, -0.7)}
-      <ellipse cx="0" cy="2" rx="26" ry="22" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1.5"/>
-      <ellipse cx="0" cy="7" rx="15" ry="12" fill="#FFF0F5" opacity="0.7"/>
-      <ellipse cx="-15" cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
-      <ellipse cx="15"  cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
-      <ellipse cx="0" cy="22" rx="8" ry="4" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1"/>
-      ${face}
-    </g>
-  `;
-}
-
-// ── Lottie SVG ───────────────────────────────────────────────
-
-function lottieSmallSVG() {
-  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-    ${lottieSVGPaths(28, 30, 0.65)}
-  </svg>`;
-}
-
-function lottieLargeSVG() {
-  return `<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-    ${lottieSVGPaths(28, 30, 0.9)}
-  </svg>`;
-}
-
-function gillFeather(x1, y1, x2, y2, bx, by) {
-  const dx = x2 - x1, dy = y2 - y1;
-  const steps = 3;
-  let lines = `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#F5A9B8" stroke-width="1.8" stroke-linecap="round"/>`;
-  for (let i = 1; i <= steps; i++) {
-    const t = i / (steps + 1);
-    const mx = x1 + dx * t, my = y1 + dy * t;
-    const len = 4;
-    lines += `<line x1="${mx}" y1="${my}" x2="${mx + bx * len * (1 - t * 0.4)}" y2="${my + by * len * (1 - t * 0.4)}" stroke="#F5A9B8" stroke-width="1" stroke-linecap="round"/>`;
-    lines += `<line x1="${mx}" y1="${my}" x2="${mx - bx * len * 0.6 * (1 - t * 0.4)}" y2="${my - by * len * 0.6 * (1 - t * 0.4)}" stroke="#F5A9B8" stroke-width="1" stroke-linecap="round"/>`;
-  }
-  return lines;
-}
-
-function lottieSVGPaths(cx, cy, scale) {
-  return `
-    <g transform="translate(${cx}, ${cy}) scale(${scale})">
-      ${gillFeather(-26, -6, -38, -18,  0.7, -0.7)}
-      ${gillFeather(-27,  1, -44,   1,  0,    1  )}
-      ${gillFeather(-26,  8, -38,  19, -0.7, -0.7)}
-      ${gillFeather( 26, -6,  38, -18, -0.7, -0.7)}
-      ${gillFeather( 27,  1,  44,   1,  0,    1  )}
-      ${gillFeather( 26,  8,  38,  19,  0.7, -0.7)}
-      <ellipse cx="0" cy="2" rx="26" ry="22" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1.5"/>
-      <ellipse cx="0" cy="7" rx="15" ry="12" fill="#FFF0F5" opacity="0.7"/>
-      <g class="numby-normal">
-        <circle cx="-10" cy="-5" r="5.5" fill="var(--text)"/>
-        <circle cx="-8"  cy="-7" r="2"   fill="var(--surface)"/>
-        <circle cx="10"  cy="-5" r="5.5" fill="var(--text)"/>
-        <circle cx="12"  cy="-7" r="2"   fill="var(--surface)"/>
-        <path d="M-6,6 Q0,11 6,6" stroke="#C07080" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      </g>
-      <g class="numby-happy">
-        <text x="-10" y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
-        <text x="10"  y="0" text-anchor="middle" font-size="11" fill="var(--text)">★</text>
-        <path d="M-8,6 Q0,15 8,6" stroke="#C07080" stroke-width="2" stroke-linecap="round" fill="#FFF0F5"/>
-      </g>
-      <ellipse cx="-15" cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
-      <ellipse cx="15"  cy="4" rx="4" ry="3" fill="#F5A9B8" opacity="0.5"/>
-      <ellipse cx="0" cy="22" rx="8" ry="4" fill="#FDDDE6" stroke="#F0B0C0" stroke-width="1"/>
-    </g>
-  `;
 }
