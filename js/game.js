@@ -406,6 +406,7 @@ function toggleCell(r, c) {
 // ── Revive ───────────────────────────────────────────────────
 
 function spendPointsRevive() {
+  const L    = LEVELS[currentLevel];
   const cost = REVIVE_COSTS[L.isWTF ? 'wtf' : L.size];
   if (!spendPoints(cost)) return;
   lives    = 1;
