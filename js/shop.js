@@ -18,6 +18,20 @@ const SHOP_ITEMS = [
     }
   },
   {
+    id:       'theme-dark',
+    type:     'theme',
+    name:     'Classic Dark',
+    desc:     'Easy on the eyes at night',
+    price:    35,
+    preview() {
+      return `<div class="theme-swatch" style="background:#1C1917;border-color:#44403C;">
+        <div class="swatch-dot" style="background:#34D399"></div>
+        <div class="swatch-dot" style="background:#818CF8"></div>
+        <div class="swatch-dot" style="background:#F87171"></div>
+      </div>`;
+    }
+  },
+  {
     id:       'theme-colorblind',
     type:     'theme',
     name:     'Accessible',
@@ -32,23 +46,9 @@ const SHOP_ITEMS = [
     }
   },
   {
-    id:       'theme-dark',
-    type:     'theme',
-    name:     'Dark',
-    desc:     'Easy on the eyes at night',
-    price:    35,
-    preview() {
-      return `<div class="theme-swatch" style="background:#1C1917;border-color:#44403C;">
-        <div class="swatch-dot" style="background:#34D399"></div>
-        <div class="swatch-dot" style="background:#818CF8"></div>
-        <div class="swatch-dot" style="background:#F87171"></div>
-      </div>`;
-    }
-  },
-  {
     id:       'theme-dark-cb',
     type:     'theme',
-    name:     'Dark Accessible',
+    name:     'Accessible Dark',
     desc:     'Dark mode with blue & orange',
     price:    35,
     preview() {
