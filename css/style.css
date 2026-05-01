@@ -270,48 +270,6 @@ body.theme-wlw-dark {
   --points-color: #FF9B55;
 }
 
-/* Rainbow pride theme */
-/* Official flag: #E40303 #FF8C00 #FFED00 #008026 #004DFF #750787 */
-body.theme-rainbow {
-  --bg: #FAFAFA;
-  --surface: #FFFFFF;
-  --border: #E8E8E8;
-  --text: #1C1917;
-  --text-muted: #78716C;
-  --green: #008026;
-  --green-light: #E8F8ED;
-  --green-border: #80C898;
-  --red: #E40303;
-  --red-light: #FEE8E8;
-  --red-border: #F09090;
-  --selected-bg: #E8F8ED;
-  --selected-border: #008026;
-  --selected-text: #004813;
-  --accent: #750787;
-  --accent-light: #F5E8F8;
-  --dim-bg: #F5F5F5;
-  --dim-text: #C0C0C0;
-  --dim-border: #E8E8E8;
-  --points-color: #FF8C00;
-}
-
-/* Rainbow: cycle level dot colours through the 6 flag colours */
-body.theme-rainbow .lvl-dot.solved {
-  background: #E8F8ED;
-  border-color: #008026;
-  color: #004813;
-}
-
-body.theme-rainbow .lvl-dot.next {
-  background: #750787;
-  border-color: #750787;
-  color: #fff;
-  box-shadow: 0 0 0 3px #F5E8F8;
-}
-
-body.theme-rainbow #logo span         { color: #E40303; }
-body.theme-rainbow #points-display    { color: #FF8C00; }
-body.theme-rainbow .map-section-label { color: #750787; }
   --bg: #FDF0F7;
   --surface: #FFFFFF;
   --border: #F0B8D8;
@@ -773,11 +731,6 @@ body.theme-wlw-dark .row-label {
   border-color: #4A1800;
 }
 
-body.theme-rainbow .col-label,
-body.theme-rainbow .row-label {
-  background: #F0F0F0;
-  border-color: #D8D8D8;
-}
 
 .col-label.exact, .row-label.exact,
 body.theme-dark .col-label.exact, body.theme-dark .row-label.exact,

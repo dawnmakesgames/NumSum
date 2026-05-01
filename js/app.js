@@ -18,6 +18,9 @@ function showScreen(name) {
 
 (function init() {
   loadState();
+  const savedTheme = getActiveTheme();
+  const validTheme = SHOP_ITEMS.some(item => item.id === savedTheme);
+  if (!validTheme) setActiveTheme('theme-default');
   applyTheme(getActiveTheme());
   refreshPointsDisplays();
   showScreen('map');

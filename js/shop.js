@@ -173,23 +173,6 @@ const SHOP_ITEMS = [
     }
   },
   {
-    id:       'theme-rainbow',
-    type:     'pride-theme',
-    name:     'Rainbow',
-    desc:     'For everyone 🌈',
-    price:    15,
-    preview() {
-      return `<div class="theme-swatch" style="background:#FAFAFA;border-color:#E0E0E0;gap:1px;padding:4px;">
-        <div class="swatch-dot" style="background:#E40303;width:7px;height:7px;"></div>
-        <div class="swatch-dot" style="background:#FF8C00;width:7px;height:7px;"></div>
-        <div class="swatch-dot" style="background:#FFED00;width:7px;height:7px;"></div>
-        <div class="swatch-dot" style="background:#008026;width:7px;height:7px;"></div>
-        <div class="swatch-dot" style="background:#004DFF;width:7px;height:7px;"></div>
-        <div class="swatch-dot" style="background:#750787;width:7px;height:7px;"></div>
-      </div>`;
-    }
-  },
-  {
     id:    'companion-numby',
     type:  'companion',
     name:  'Numby',
