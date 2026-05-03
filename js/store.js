@@ -70,7 +70,10 @@ function isItemOwned(id)      { return _state.ownedItems.includes(id); }
 
 // A level is unlocked if it's the first in its section, or the
 // previous level has been solved.
+let _devAllUnlocked = false;
+
 function isLevelUnlocked(i) {
+  if (_devAllUnlocked) return true;
   if (SECTION_STARTS.includes(i)) return true;
   return isLevelSolved(i - 1);
 }
@@ -165,5 +168,12 @@ function devClear() {
   loadState();
   applyTheme('theme-default');
   refreshPointsDisplays();
+  renderMap();
+}
+
+function devToggleUnlockAll() {
+  _devAllUnlocked = !_devAllUnlocked;
+  const btn = document.getElementById('btn-dev-unlock');
+  btn.textContent = _devAllUnlocked ? 'Re-lock unsolved levels' : 'Unlock all levels';
   renderMap();
 }
