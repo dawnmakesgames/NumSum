@@ -24,7 +24,7 @@ The small number in the corner of each label shows your running total as you go.
 
 ## Features
 
-- **150 puzzles** across three difficulty tiers — 3×3 warm-up, 4×4 classic, and 5×5 challenge
+- **800+ puzzles** across three difficulty tiers — 3×3 warm-up, 4×4 classic, and 5×5 challenge
 - **Two modes** — Lives mode for a challenge, Free mode for a relaxed solve
 - **Points & shop** — earn points by completing levels and spend them on cosmetics
 - **Companions** — Numby the ghost, Bun the rabbit, and Pip the frog keep you company
