@@ -80,7 +80,11 @@ function renderLives() {
   for (let i = 0; i < 3; i++) {
     const d = document.createElement('div');
     d.innerHTML = heartSVG(i < lives);
-    if (i >= lives) d.querySelector('svg').classList.add('lost');
+    if (i >= lives) {
+      const svg = d.querySelector('svg');
+      svg.classList.add('lost');
+      svg.addEventListener('animationend', () => svg.classList.add('done'), { once: true });
+    }
     el.appendChild(d.firstChild);
   }
 }
@@ -133,6 +137,9 @@ function rowDoneCompanion() {
   el.classList.remove('companion-row-done');
   void el.offsetWidth; // forces a reflow so the animation restarts cleanly
   el.classList.add('companion-row-done');
+  el.addEventListener('animationend', (e) => {
+    if (e.animationName === 'companionRowDone') el.classList.remove('companion-row-done');
+  }, { once: true });
 }
 
 

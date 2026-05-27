@@ -581,6 +581,7 @@ body {
 }
 
 .heart.lost { animation: heartbreak 0.3s ease-out forwards; }
+.heart.lost.done { animation: none; transform: scale(0.85); opacity: 0.4; }
 
 /* ── Companion ──
    The critter that floats above the grid. It idles with a gentle
