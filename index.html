@@ -174,24 +174,28 @@
     <!-- Message area — shows feedback like "Over the target — lost a life!" -->
     <div id="msg-area"><div id="message"></div></div>
 
-    <!-- Win screen — shown when the player solves the puzzle -->
+    <!-- Win screen — overlay shown when the player solves the puzzle -->
     <div id="win-screen">
-      <div id="win-title">Puzzle solved!</div>
-      <div class="sub-text" id="win-sub"></div>       <!-- e.g. "Level 3 complete! ★★☆" -->
-      <div id="points-earned-display"></div>           <!-- e.g. "+25 pts" -->
-      <button class="btn btn-green" id="next-btn" onclick="nextLevel()">Next level →</button>
-      <button class="btn" onclick="resetGame()">Play again</button>
-      <button class="btn" onclick="showScreen('map')">Back to levels</button>
+      <div class="result-card">
+        <div id="win-title">Puzzle solved!</div>
+        <div class="sub-text" id="win-sub"></div>       <!-- e.g. "Level 3 complete! ★★☆" -->
+        <div id="points-earned-display"></div>           <!-- e.g. "+25 pts" -->
+        <button class="btn btn-green" id="next-btn" onclick="nextLevel()">Next level →</button>
+        <button class="btn" onclick="resetGame()">Play again</button>
+        <button class="btn" onclick="showScreen('map')">Back to levels</button>
+      </div>
     </div>
 
-    <!-- Game over screen — shown when the player runs out of lives -->
+    <!-- Game over screen — overlay shown when the player runs out of lives -->
     <div id="gameover-screen">
-      <div id="gameover-title">No lives left!</div>
-      <div class="sub-text" id="gameover-sub">You lost <span id="revive-cost-display"></span> points to restart.</div>
-      <!-- Revive button only shown if the player can afford it -->
-      <button class="btn btn-primary" id="revive-btn" onclick="spendPointsRevive()">Revive (−<span id="revive-cost-label"></span> pts)</button>
-      <button class="btn" onclick="resetGame()">Restart for free</button>
-      <button class="btn" onclick="showScreen('map')">Back to levels</button>
+      <div class="result-card">
+        <div id="gameover-title">No lives left!</div>
+        <div class="sub-text" id="gameover-sub">You lost <span id="revive-cost-display"></span> points to restart.</div>
+        <!-- Revive button only shown if the player can afford it -->
+        <button class="btn btn-primary" id="revive-btn" onclick="spendPointsRevive()">Revive (−<span id="revive-cost-label"></span> pts)</button>
+        <button class="btn" onclick="resetGame()">Restart for free</button>
+        <button class="btn" onclick="showScreen('map')">Back to levels</button>
+      </div>
     </div>
 
     <!-- Restart button — always visible during play, hidden on win/game over screens -->

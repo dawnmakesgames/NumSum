@@ -788,19 +788,39 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
 #message  { font-size: 14px; color: var(--red); font-weight: 500; opacity: 0; transition: opacity 0.2s; }
 #message.show { opacity: 1; }
 
-/* ── Win / game over screens ──
-   Hidden by default (display: none). The .show class is added
-   by game.js when the puzzle is solved or all lives are lost. */
+/* ── Win / game over overlays ──
+   Hidden by default. The .show class is added by game.js when the
+   puzzle is solved or all lives are lost. Fixed overlay with backdrop,
+   card slides up from centre. */
 #win-screen, #gameover-screen {
   display: none;
-  flex-direction: column;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
   align-items: center;
-  margin-top: 20px;
-  gap: 8px;
-  animation: fadein 0.4s ease-out;
+  justify-content: center;
+  z-index: 50;
 }
 
 #win-screen.show, #gameover-screen.show { display: flex; }
+
+.result-card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 28px 20px 24px;
+  width: calc(100% - 48px);
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation: cardenter 0.3s ease-out;
+}
+
+@keyframes cardenter {
+  from { opacity: 0; transform: scale(0.93) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
 
 @keyframes fadein {
   from { opacity: 0; transform: translateY(8px); }
@@ -1225,4 +1245,3 @@ body.theme-dark.theme-colorblind .col-label.over, body.theme-dark.theme-colorbli
 }
 
 .shop-cta-btn:active { transform: scale(0.97); opacity: 0.85; }
-</style>
