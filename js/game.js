@@ -410,8 +410,7 @@ function toggleCell(r, c) {
     if (lives <= 0) {
       gameOver = true;
       const cost = REVIVE_COSTS[L.size];
-      document.getElementById('revive-cost-display').textContent = cost;
-      document.getElementById('revive-cost-label').textContent   = cost;
+      document.getElementById('revive-cost-label').textContent = cost;
       // Only show the Revive button if the player can afford it
       const canAfford = getPoints() >= cost;
       document.getElementById('revive-btn').style.display = canAfford ? 'block' : 'none';
