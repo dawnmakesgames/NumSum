@@ -40,8 +40,11 @@ function showScreen(name) {
 
   // Each screen has its own render function that rebuilds the content fresh.
   // The game screen is the exception — it's built by startLevel() when a
-  // level dot is tapped, so it doesn't need a render call here.
+  // level dot is tapped, so it doesn't need a full render call here.
+  // We do call renderCompanion() so a companion change from the shop takes
+  // effect immediately without requiring a level restart.
   if (name === 'map')             renderMap();
+  if (name === 'game')            renderCompanion();
   if (name === 'profile')         renderProfile();
   if (name === 'shop-themes')     renderThemeShop();
   if (name === 'shop-companions') renderCompanionShop();
