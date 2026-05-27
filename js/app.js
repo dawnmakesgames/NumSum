@@ -20,9 +20,20 @@
 // The actual element IDs in index.html are 'screen-map', 'screen-game', etc.
 const SCREENS = ['map', 'game', 'profile', 'shop-themes', 'shop-companions'];
 
+// Tracks the previous screen so the shop back buttons can return to wherever
+// the player came from (game screen vs map screen).
+let previousScreen = 'map';
+
 // Switches to the named screen. Hides all other screens, shows this one,
 // and calls whichever render function that screen needs to build its content.
 function showScreen(name) {
+  // Store the current active screen as the previous screen before switching
+  SCREENS.forEach(s => {
+    if (document.getElementById(`screen-${s}`).classList.contains('active')) {
+      previousScreen = s;
+    }
+  });
+
   SCREENS.forEach(s => {
     document.getElementById(`screen-${s}`).classList.toggle('active', s === name);
   });
@@ -34,6 +45,14 @@ function showScreen(name) {
   if (name === 'profile')         renderProfile();
   if (name === 'shop-themes')     renderThemeShop();
   if (name === 'shop-companions') renderCompanionShop();
+}
+
+// Returns to whatever screen the player was on before the current one.
+// Used by the shop back buttons so they go back to the game screen if
+// the player was in the middle of a puzzle.
+function goBack() {
+  const returnTo = previousScreen;
+  showScreen(returnTo);
 }
 
 
